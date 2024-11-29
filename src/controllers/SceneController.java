@@ -14,7 +14,7 @@ public class SceneController {
         stage = primaryStage;
     }
     
-	private static Pane getPageFromPath(String path) {
+	private static Pane getPageFromPath(String path, Object... params) {
 		switch (path) {
 		case "login": return new LoginPage();
 		case "register": return new RegisterPage();
@@ -23,12 +23,12 @@ public class SceneController {
 		}
 	}
 	
-	public static void moveScene(String path) {
+	public static void moveScene(String path, Object... params) {
 		if (stage == null) {
             throw new IllegalStateException("Stage has not been set.");
         }
 		
-		Pane page = getPageFromPath(path);
+		Pane page = getPageFromPath(path, params);
         Scene scene = new Scene(page, 800, 600);
         stage.setScene(scene);
 	}
