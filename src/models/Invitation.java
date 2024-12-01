@@ -10,6 +10,15 @@ public class Invitation {
 	private String invitationStatus;
 	private String invitationRole;
 	
+	public Invitation(String invitationId, String eventId, String userId, String invitationStatus,
+			String invitationRole) {
+		this.invitationId = invitationId;
+		this.eventId = eventId;
+		this.userId = userId;
+		this.invitationStatus = invitationStatus;
+		this.invitationRole = invitationRole;
+	}
+
 	public void sendInvitation(String email) {
 		
 	}

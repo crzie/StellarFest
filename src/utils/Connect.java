@@ -52,12 +52,15 @@ public class Connect {
 		return rs;
 	}
 	
-	public void executeUpdate(String query) {
+	public Integer executeUpdate(String query) {
+		Integer rowsAffected = 0;
 		try {
-			st.executeUpdate(query);
+			rowsAffected = st.executeUpdate(query);
 		} catch (SQLException e) {
+			rowsAffected = null;
 			e.printStackTrace();
 		}
+		return rowsAffected;
 	}
 	
 	public PreparedStatement prepareStatement(String query) {

@@ -19,7 +19,7 @@ public class EventOrganizer extends User {
 	
 	public static Response<List<Event>> viewOrganizedEvents(String userId) {
 		ResultSet rs = db.executeQuery(
-					String.format("SELECT * FROM events WHERE OrganizerId = %s", userId)
+					String.format("SELECT * FROM events WHERE OrganizerId = '%s'", userId)
 				);
 		if (rs == null) return Response.error("Error fetching events");
 		
@@ -45,7 +45,7 @@ public class EventOrganizer extends User {
 	
 	public static Response<Event> viewOrganizedEventDetails(String eventId) {
 		ResultSet rs = db.executeQuery(
-				String.format("SELECT * FROM events WHERE EventId = %s", eventId)
+				String.format("SELECT * FROM events WHERE EventId = '%s'", eventId)
 			);
 		if (rs == null) return Response.error("Error fetching event details");
 		
@@ -80,8 +80,8 @@ public class EventOrganizer extends User {
 		ResultSet rs = db.executeQuery(
 				String.format("SELECT DISTINCT UserId, UserEmail, Username "
 						+ "FROM users u JOIN invitations i ON u.UserId = i.UserId "
-						+ "WHERE EventId = %s AND InvitationRole = %s AND InvitationStatus = %b", 
-						eventId, "Guest", true)
+						+ "WHERE EventId = '%s' AND InvitationRole = 'Guest' AND InvitationStatus = 1", 
+						eventId)
 			);
 		if (rs == null) return Response.error("Error fetching event guests");
 		
@@ -106,8 +106,8 @@ public class EventOrganizer extends User {
 		ResultSet rs = db.executeQuery(
 				String.format("SELECT DISTINCT UserId, UserEmail, Username "
 						+ "FROM users u JOIN invitations i ON u.UserId = i.UserId "
-						+ "WHERE EventId = %s AND InvitationRole = %s AND InvitationStatus = %b",
-						eventId, "Vendor", true)
+						+ "WHERE EventId = '%s' AND InvitationRole = 'Vendor' AND InvitationStatus = 1",
+						eventId)
 			);
 		if (rs == null) return Response.error("Error fetching event vendors");
 		
