@@ -30,4 +30,10 @@ public class Invitation {
 	public List<Invitation> getInvitations(String email) {
 		return new ArrayList<>();
 	}
+
+	public String getUserId() {
+		return userId;
+	}
+	
+	
 }

@@ -232,4 +232,13 @@ public class User {
 	public String getUserRole() {
 		return userRole;
 	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+	
 }

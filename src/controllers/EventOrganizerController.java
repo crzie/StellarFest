@@ -35,8 +35,8 @@ public class EventOrganizerController {
 		return new ArrayList<>();
 	}
 	
-	public List<User> getVendors() {
-		return new ArrayList<>();
+	public static List<Vendor> getVendors() {
+		return EventOrganizer.getVendors();
 	}
 	
 	public static Response<List<Guest>> getGuestsByTransactionId(String eventId) {
@@ -51,7 +51,11 @@ public class EventOrganizerController {
 		return EventOrganizer.checkCreateEventInput(eventName, date, location, description);
 	}
 	
-	public boolean checkAddVendorInput(String vendorId) {
+	public static void sendInvitation(String vendorEmail) {
+		
+	}
+	
+	public boolean checkAddVendorInput(String vendorEmail) {
 		return false;
 	}
 	

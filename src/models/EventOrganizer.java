@@ -72,8 +72,28 @@ public class EventOrganizer extends User {
 		return new ArrayList<>();
 	}
 	
-	public List<Vendor> getVendors() {
-		return new ArrayList<>();
+	//blm selesai add vendornyaa
+	public static List<Vendor> getVendors() {
+		ResultSet rs = db.executeQuery("SELECT * FROM users WHERE UserRole = 'Vendor'");
+		
+		ArrayList<Vendor> vendorList = new ArrayList<>();
+		
+		try {
+			while(rs.next()) {
+				String id = rs.getString("UserId");
+				String email = rs.getString("UserEmail");
+				String name = rs.getString("Username");
+				String pass = rs.getString("UserPassword");
+				
+				vendorList.add(new Vendor(id, email, name, pass, "Vendor"));
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return vendorList;
 	}
 	
 	public static Response<List<Guest>> getGuestsByTransactionId(String eventId) {

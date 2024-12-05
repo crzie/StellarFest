@@ -3,9 +3,7 @@ package controllers;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import views.HomePage;
-import views.LoginPage;
-import views.RegisterPage;
+import views.*;
 
 public class SceneController {
 	private static Stage stage;
@@ -19,8 +17,15 @@ public class SceneController {
 		case "login": return new LoginPage();
 		case "register": return new RegisterPage();
 		case "home": return new HomePage();
+		case "create event": return new CreateEventPage();
+		case "add vendors": return new AddVendorPage();
+		case "add guests": return new AddGuestsPage();
+		case "view organized events": return new ViewOrganizedEventsPage();
+		case "view organized event details": return new ViewOrganizedEventDetailsPage();
+		case "edit event name": return new EditEventNamePage();
 			default: return new RegisterPage();
 		}
+		
 	}
 	
 	public static void moveScene(String path, Object... params) {
