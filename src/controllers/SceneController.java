@@ -3,6 +3,7 @@ package controllers;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import models.Event;
 import views.*;
 
 public class SceneController {
@@ -18,7 +19,12 @@ public class SceneController {
 		case "register": return new RegisterPage();
 		case "home": return new HomePage();
 		case "create event": return new CreateEventPage();
-		case "add vendors": return new AddVendorPage();
+		case "add vendors":
+			if(params.length == 1 && params[0] instanceof Event) {
+				return new AddVendorPage((Event)params[0]);				
+			} else {
+				return new RegisterPage();
+			}
 		case "add guests": return new AddGuestsPage();
 		case "view organized events": return new ViewOrganizedEventsPage();
 		case "view organized event details": return new ViewOrganizedEventDetailsPage();

@@ -10,15 +10,15 @@ import utils.Response;
 public class Guest extends User {
 	private String acceptedInvitations;
 	
-	public Guest(String userId, String userEmail, String username, String userPassword, String userRole) {
-		super(userId, userEmail, username, userPassword, userRole);
+	public Guest(String userId, String userEmail, String username, String userPassword) {
+		super(userId, userEmail, username, userPassword, "Guest");
 	}
 
 	public Response<Void> acceptInvitation(String eventId) {
 		Integer rowsAffected = db.executeUpdate(
 				String.format("UPDATE invitations SET InvitationStatus = 1 "
-						+ "WHERE UserId = '%s' AND EventId = '%s'", 
-						userId, eventId)
+						+ "WHERE UserId = '%s' AND EventId = '%s' AND InvitationRole = 'Guest'", 
+						this.userId, eventId)
 			);
 		
 		if(rowsAffected == null) {

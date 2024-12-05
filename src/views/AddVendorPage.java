@@ -1,6 +1,7 @@
 package views;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import controllers.EventController;
 import controllers.EventOrganizerController;
@@ -21,14 +22,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import models.Event;
 import models.User;
 import models.Vendor;
 import utils.Response;
 
 public class AddVendorPage extends VBox implements Page{
-	
-	ObservableList<Vendor> vendorList = FXCollections.observableArrayList(EventOrganizerController.getVendors());
-	TableView<Vendor> vendorTable = new TableView<>(vendorList);
+	private Event event;
+	ObservableList<Vendor> vendorList;
+	TableView<Vendor> vendorTable;
 	
 	TableColumn<Vendor, Boolean> checkBoxColumn = new TableColumn<>("Select");
 	TableColumn<Vendor, String> vendorIdColumn = new TableColumn<>("Vendor ID");
@@ -96,7 +98,7 @@ public class AddVendorPage extends VBox implements Page{
             } 
 			
 			for (User user : userSelected) {
-            	EventOrganizerController.sendInvitation(user.getUserEmail()); 
+//            	EventOrganizerController.sendInvitation(user.getUserEmail()); 
             }
 			
 //			Response<Void> response = EventController.createEvent(name, date, location, desc, organizerId.getUserId());
@@ -114,7 +116,14 @@ public class AddVendorPage extends VBox implements Page{
 		});
 	}
 	
-	public AddVendorPage() {
+	public AddVendorPage(Event event) {
+		this.event = event;
+
+		Response<List<Vendor>> vendorsResponse = EventOrganizerController.getVendors(event.getEventId());
+		
+		vendorList = FXCollections.observableArrayList(vendorsResponse.data);
+		vendorTable = new TableView<>(vendorList);
+		
 		initializePage();
 	}
 

@@ -1,5 +1,6 @@
 package controllers;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -31,12 +32,12 @@ public class EventOrganizerController {
 		return EventOrganizer.viewOrganizedEventDetails(eventId);
 	}
 	
-	public List<User> getGuests() {
-		return new ArrayList<>();
+	public static Response<List<Guest>> getGuests(String eventId) {
+		return EventOrganizer.getGuests(eventId);
 	}
 	
-	public static List<Vendor> getVendors() {
-		return EventOrganizer.getVendors();
+	public static Response<List<Vendor>> getVendors(String eventId) {
+		return EventOrganizer.getVendors(eventId);
 	}
 	
 	public static Response<List<Guest>> getGuestsByTransactionId(String eventId) {
@@ -50,20 +51,20 @@ public class EventOrganizerController {
 	public static Response<Void> checkCreateEventInput(String eventName, LocalDate date, String location, String description) {
 		return EventOrganizer.checkCreateEventInput(eventName, date, location, description);
 	}
-	
-	public static void sendInvitation(String vendorEmail) {
-		
+
+	public static Response<Void> checkAddVendorInput(String vendorId) {
+		return EventOrganizer.checkAddVendorInput(vendorId);
 	}
 	
-	public boolean checkAddVendorInput(String vendorEmail) {
-		return false;
+	public static Response<Void> checkAddGuestInput(String guestId) {
+		return EventOrganizer.checkAddGuestInput(guestId);
 	}
 	
-	public boolean checkAddGuestInput(String guestId) {
-		return false;
-	}
-	
-	public void editEventName(String eventId, String eventName) {
-		
+	public static Response<Void> editEventName(String eventId, String eventName) {
+		// check if name isn't empty
+		if(eventName.isEmpty()) {
+			return Response.error("Event name must be filled");
+		}
+		return EventOrganizer.editEventName(eventId, eventName);
 	}
 }

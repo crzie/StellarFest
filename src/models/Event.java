@@ -87,4 +87,8 @@ public class Event {
 		}
 		return nextId;
 	}
+	
+	public String getEventId() {
+		return eventId;
+	}
 }

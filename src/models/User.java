@@ -181,13 +181,13 @@ public class User {
 		if(newPassword.length() < 5) {
 			return Response.error("Password must be at least 5 characters");
 		}
-		if(email == this.userEmail || name == this.username) {
+		if(email.equals(this.userEmail) || name.equals(this.username)) {
 			return Response.error("Email and username must be different from the old one");
 		}
-		if(oldPassword == newPassword) {
+		if(oldPassword.equals(newPassword)) {
 			return Response.error("Password must be different from the old password");
 		}
-		if(oldPassword != this.userPassword) {
+		if(!oldPassword.equals(this.userPassword)) {
 			return Response.error("Old Password is wrong");
 		}
 		

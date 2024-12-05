@@ -134,7 +134,7 @@ public class Admin extends User {
 				String userEmail = rs.getString("UserEmail");
 				String username = rs.getString("Username");
 				
-				guests.add(new Guest(userId, userEmail, username, null, "Guest"));
+				guests.add(new Guest(userId, userEmail, username, null));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -160,7 +160,7 @@ public class Admin extends User {
 				String userEmail = rs.getString("UserEmail");
 				String username = rs.getString("Username");
 				
-				vendors.add(new Vendor(userId, userEmail, username, null, "Vendor"));
+				vendors.add(new Vendor(userId, userEmail, username, null));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

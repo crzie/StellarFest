@@ -1,5 +1,6 @@
 package models;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -11,7 +12,6 @@ import utils.Response;
 
 public class EventOrganizer extends User {
 	private String eventsCreated;
-	
 	
 	public static Response<Void> createEvent(String eventName, String date, String location, String description, String organizerId) {
 		return Event.createEvent(eventName, date, location, description, organizerId);
@@ -68,32 +68,66 @@ public class EventOrganizer extends User {
 		}
 	}
 	
-	public List<Guest> getGuests() {
-		return new ArrayList<>();
-	}
-	
-	//blm selesai add vendornyaa
-	public static List<Vendor> getVendors() {
-		ResultSet rs = db.executeQuery("SELECT * FROM users WHERE UserRole = 'Vendor'");
+	public static Response<List<Guest>> getGuests(String eventId) {
+		// eventId to exclude guests already added to event
+		ResultSet rs = db.executeQuery(
+				String.format("SELECT DISTINCT UserId, UserEmail, Username "
+						+ "FROM users u JOIN invitations i ON u.UserId = i.UserId "
+						+ "WHERE UserRole = 'Guest' AND EventId != %s", 
+						eventId
+					)
+			);
+		ArrayList<Guest> guests = new ArrayList<>();
 		
-		ArrayList<Vendor> vendorList = new ArrayList<>();
+		if(rs == null) {
+			return Response.error("Error fetching guests");
+		}
 		
 		try {
 			while(rs.next()) {
-				String id = rs.getString("UserId");
-				String email = rs.getString("UserEmail");
-				String name = rs.getString("Username");
-				String pass = rs.getString("UserPassword");
+				String userId = rs.getString("UserId");
+				String userEmail = rs.getString("UserEmail");
+				String username = rs.getString("Username");
 				
-				vendorList.add(new Vendor(id, email, name, pass, "Vendor"));
-				
+				guests.add(new Guest(userId, userEmail, username, null));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.error("Error fetching guests: " + e.getMessage());
 		}
 		
-		return vendorList;
+		return Response.success("Fetch guests success", guests);
+	}
+	
+	public static Response<List<Vendor>> getVendors(String eventId) {
+		// eventId to exclude vendors already added to event
+		ResultSet rs = db.executeQuery(
+				String.format("SELECT DISTINCT UserId, UserEmail, Username "
+						+ "FROM users u JOIN invitations i ON u.UserId = i.UserId "
+						+ "WHERE UserRole = 'Vendor' AND EventId != %s", 
+						eventId
+					)
+			);
+		ArrayList<Vendor> vendors = new ArrayList<>();
+		
+		if(rs == null) {
+			return Response.error("Error fetching vendors");
+		}
+		
+		try {
+			while(rs.next()) {
+				String userId = rs.getString("UserId");
+				String userEmail = rs.getString("UserEmail");
+				String username = rs.getString("Username");
+				
+				vendors.add(new Vendor(userId, userEmail, username, null));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Response.error("Error fetching vendors: " + e.getMessage());
+		}
+		
+		return Response.success("Fetch vendors success", vendors);
 	}
 	
 	public static Response<List<Guest>> getGuestsByTransactionId(String eventId) {
@@ -112,7 +146,7 @@ public class EventOrganizer extends User {
 				String userEmail = rs.getString("UserEmail");
 				String username = rs.getString("Username");
 				
-				guests.add(new Guest(userId, userEmail, username, null, "Guest"));
+				guests.add(new Guest(userId, userEmail, username, null));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -138,7 +172,7 @@ public class EventOrganizer extends User {
 				String userEmail = rs.getString("UserEmail");
 				String username = rs.getString("Username");
 				
-				vendors.add(new Vendor(userId, userEmail, username, null, "Vendor"));
+				vendors.add(new Vendor(userId, userEmail, username, null));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -149,7 +183,6 @@ public class EventOrganizer extends User {
 	}
 	
 	public static Response<Void> checkCreateEventInput(String eventName, LocalDate date, String location, String description) {
-		// TODO validate date
 		if(eventName.isEmpty()) {
 			return Response.error("Event name must be filled");
 		}
@@ -175,15 +208,40 @@ public class EventOrganizer extends User {
 		return Response.success("", null);
 	}
 	
-	public boolean checkAddVendorInput(String vendorId) {
-		return false;
+	public static Response<Void> checkAddVendorInput(String vendorId) {
+		if(vendorId.isEmpty()) {
+			return Response.error("You must choose at least 1 vendor");
+		}
+		return Response.success("", null);
 	}
 	
-	public boolean checkAddGuestInput(String guestId) {
-		return false;
+	public static Response<Void> checkAddGuestInput(String guestId) {
+		if(guestId.isEmpty()) {
+			return Response.error("You must choose at least 1 guest");
+		}
+		return Response.success("", null);
 	}
 	
-	public void editEventName(String eventId, String eventName) {
+	public static Response<Void> editEventName(String eventId, String eventName) {
+		PreparedStatement ps = db.prepareStatement(
+				"UPDATE events "
+				+ "SET EventName = ? "
+				+ "WHERE EventId = ?"
+			);
 		
+		try {
+			ps.setString(1, eventName);
+			ps.setString(2, eventId);
+			int rowsAffected = ps.executeUpdate();
+			
+			if(rowsAffected == 0) {
+				return Response.error("There is no such event");
+			} else {
+				return Response.success("Edit event name success", null);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Response.error("Error editing event name: " + e.getMessage());
+		}
 	}
 }
