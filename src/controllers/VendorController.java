@@ -25,10 +25,6 @@ public class VendorController {
 		return Response.error("Error accepting invitation: user is not a vendor");
 	}
 	
-	public static Response<List<Invitation>> getInvitations(String userId) {
-		return Vendor.getInvitations(userId);
-	}
-	
 	public static Response<List<Event>> viewAcceptedEvents(String email) {
 		return Vendor.viewAcceptedEvents(email);
 	}

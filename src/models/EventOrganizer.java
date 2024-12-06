@@ -44,28 +44,7 @@ public class EventOrganizer extends User {
 	}
 	
 	public static Response<Event> viewOrganizedEventDetails(String eventId) {
-		ResultSet rs = db.executeQuery(
-				String.format("SELECT * FROM events WHERE EventId = '%s'", eventId)
-			);
-		if (rs == null) return Response.error("Error fetching event details");
-		
-		try {
-			if(rs.next()) {
-				String eventName = rs.getString("EventName");
-				String eventDate = rs.getString("EventDate");
-				String eventLocation = rs.getString("EventLocation");
-				String eventDescription = rs.getString("EventDescription");
-				String organizerId = rs.getString("OrganizerId");
-				
-				Event event = new Event(eventId, eventName, eventDate, eventLocation, eventDescription, organizerId);
-				return Response.success("Fetch event detail success", event);
-			} else {
-				return Response.error("Event doesn't exist");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return Response.error("Error fetching event details: " + e.getMessage());
-		}
+		return Event.viewEventDetails(eventId);
 	}
 	
 	public static Response<List<Guest>> getGuests(String eventId) {
