@@ -5,6 +5,7 @@ import java.util.List;
 
 import controllers.EventController;
 import controllers.EventOrganizerController;
+import controllers.InvitationController;
 import controllers.SceneController;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -69,7 +70,6 @@ public class AddVendorPage extends VBox implements Page{
 
 		this.setAlignment(Pos.TOP_CENTER);
 		this.getChildren().addAll(vendorTable, inviteButton, errorLabel);
-//		this.setCenter();
 	}
 
 	@Override
@@ -98,10 +98,8 @@ public class AddVendorPage extends VBox implements Page{
             } 
 			
 			for (User user : userSelected) {
-//            	EventOrganizerController.sendInvitation(user.getUserEmail()); 
+            	InvitationController.sendInvitation(user.getUserEmail()); 
             }
-			
-//			Response<Void> response = EventController.createEvent(name, date, location, desc, organizerId.getUserId());
 //			
 //			if(response.isSuccess) {
 //				SceneController.moveScene("home");

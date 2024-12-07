@@ -1,6 +1,7 @@
 package views;
 
 import javafx.scene.layout.BorderPane;
+import models.Event;
 
 public class ViewOrganizedEventDetailsPage extends BorderPane implements Page{
 
@@ -22,7 +23,7 @@ public class ViewOrganizedEventDetailsPage extends BorderPane implements Page{
 		
 	}
 
-	public ViewOrganizedEventDetailsPage() {
+	public ViewOrganizedEventDetailsPage(Event event) {
 		initializePage();
 	}
 }

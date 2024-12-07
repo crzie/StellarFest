@@ -27,7 +27,14 @@ public class SceneController {
 			}
 		case "add guests": return new AddGuestsPage();
 		case "view organized events": return new ViewOrganizedEventsPage();
-		case "view organized event details": return new ViewOrganizedEventDetailsPage();
+		case "view organized event details": 
+			if(params.length == 1 && params[0] instanceof Event) {
+				return new ViewOrganizedEventDetailsPage((Event)params[0]);
+			}
+			else {
+				return new HomePage();
+			}
+			
 		case "edit event name": return new EditEventNamePage();
 			default: return new RegisterPage();
 		}
