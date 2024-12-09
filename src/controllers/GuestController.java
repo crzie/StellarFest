@@ -22,10 +22,6 @@ public class GuestController {
 		return Response.error("Error accepting invitation: user is not a guest");
 	}
 	
-	public static Response<List<Invitation>> getInvitations(String userId) {
-		return Guest.getInvitations(userId);
-	}
-	
 	public Response<List<Event>> viewAcceptedEvents(String email) {
 		return Guest.viewAcceptedEvents(email);
 	}

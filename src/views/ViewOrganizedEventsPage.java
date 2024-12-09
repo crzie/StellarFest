@@ -12,6 +12,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import models.Event;
 import models.User;
 import utils.AuthUser;
@@ -20,7 +23,9 @@ import utils.Response;
 public class ViewOrganizedEventsPage extends BorderPane implements Page{
 
 	private User user = AuthUser.get();
-	Label userLabel = new Label(user.getUserId() + " - " + user.getUsername());
+	private Label viewLabel = new Label("View Organized Event");
+	private Label userLabel = new Label(user.getUserId() + " - " + user.getUsername());
+	private Label noticeLabel = new Label("click the selected list to view organied event details!");
 	
 	private Response<List<Event>> eventList = EventOrganizerController.viewOrganizedEvents(user.getUserId());
 	
@@ -32,7 +37,7 @@ public class ViewOrganizedEventsPage extends BorderPane implements Page{
 	private TableColumn<Event, String> eventDateColumn = new TableColumn<>("Event Date");
 	private TableColumn<Event, String> eventLocationColumn = new TableColumn<>("Event Location");
 	
-	
+	private VBox vbox = new VBox();
 	
 	private Label errorLabel = new Label("");
 	
@@ -47,7 +52,9 @@ public class ViewOrganizedEventsPage extends BorderPane implements Page{
 		
 		eventTable.getColumns().addAll(eventIdColumn, eventNameColumn, eventDateColumn, eventLocationColumn);
 		
-		this.setTop(userLabel);
+		vbox.getChildren().addAll(viewLabel, userLabel, noticeLabel);
+		
+		this.setTop(vbox);
 		this.setCenter(eventTable);
 		this.setBottom(errorLabel);
 	}
@@ -55,7 +62,16 @@ public class ViewOrganizedEventsPage extends BorderPane implements Page{
 	@Override
 	public void setStyles() {
 		// TODO Auto-generated method stub
+		viewLabel.setFont(Font.font("System", FontWeight.BOLD, 28));
+		userLabel.setFont(Font.font("System", FontWeight.NORMAL, 12));
+		noticeLabel.setFont(Font.font("System", FontWeight.NORMAL, 12));
+		
+		errorLabel.setManaged(false);
+		errorLabel.setStyle("-fx-fill: red;");
+		
+		viewLabel.setPadding(new Insets(10));
 		userLabel.setPadding(new Insets(10));
+		noticeLabel.setPadding(new Insets(10));
 		eventIdColumn.setMinWidth(50);
 		eventNameColumn.setMinWidth(250);
 		eventDateColumn.setMinWidth(90);
@@ -65,10 +81,18 @@ public class ViewOrganizedEventsPage extends BorderPane implements Page{
 	@Override
 	public void setEvents() {
 		// TODO Auto-generated method stub
-		eventTable.setOnMouseClicked(e ->{
-			Event event = eventTable.getSelectionModel().getSelectedItem();
-			SceneController.moveScene("view organized event details", event);
-		});
+		if(eventList.isSuccess) {
+			eventTable.setOnMouseClicked(e ->{
+				Event event = eventTable.getSelectionModel().getSelectedItem();
+				SceneController.moveScene("view organized event details", event);
+			});
+		}
+		else {
+			errorLabel.setManaged(true);
+			errorLabel.setText(eventList.message);
+		}
+		
+		
 	}
 	
 	public ViewOrganizedEventsPage() {

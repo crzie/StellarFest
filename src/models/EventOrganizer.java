@@ -44,28 +44,7 @@ public class EventOrganizer extends User {
 	}
 	
 	public static Response<Event> viewOrganizedEventDetails(String eventId) {
-		ResultSet rs = db.executeQuery(
-				String.format("SELECT * FROM events WHERE EventId = '%s'", eventId)
-			);
-		if (rs == null) return Response.error("Error fetching event details");
-		
-		try {
-			if(rs.next()) {
-				String eventName = rs.getString("EventName");
-				String eventDate = rs.getString("EventDate");
-				String eventLocation = rs.getString("EventLocation");
-				String eventDescription = rs.getString("EventDescription");
-				String organizerId = rs.getString("OrganizerId");
-				
-				Event event = new Event(eventId, eventName, eventDate, eventLocation, eventDescription, organizerId);
-				return Response.success("Fetch event detail success", event);
-			} else {
-				return Response.error("Event doesn't exist");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return Response.error("Error fetching event details: " + e.getMessage());
-		}
+		return Event.viewEventDetails(eventId);
 	}
 	
 	public static Response<List<Guest>> getGuests(String eventId) {
@@ -132,9 +111,9 @@ public class EventOrganizer extends User {
 	
 	public static Response<List<Guest>> getGuestsByTransactionId(String eventId) {
 		ResultSet rs = db.executeQuery(
-				String.format("SELECT DISTINCT UserId, UserEmail, Username "
+				String.format("SELECT DISTINCT u.UserId, u.UserEmail, u.Username "
 						+ "FROM users u JOIN invitations i ON u.UserId = i.UserId "
-						+ "WHERE EventId = '%s' AND InvitationRole = 'Guest' AND InvitationStatus = 1", 
+						+ "WHERE i.EventId = '%s' AND i.InvitationRole = 'Guest' AND i.InvitationStatus = 1", 
 						eventId)
 			);
 		if (rs == null) return Response.error("Error fetching event guests");
@@ -158,9 +137,9 @@ public class EventOrganizer extends User {
 	
 	public static Response<List<Vendor>> getVendorsByTransactionId(String eventId) {
 		ResultSet rs = db.executeQuery(
-				String.format("SELECT DISTINCT UserId, UserEmail, Username "
+				String.format("SELECT DISTINCT u.UserId, u.UserEmail, u.Username "
 						+ "FROM users u JOIN invitations i ON u.UserId = i.UserId "
-						+ "WHERE EventId = '%s' AND InvitationRole = 'Vendor' AND InvitationStatus = 1",
+						+ "WHERE i.EventId = '%s' AND i.InvitationRole = 'Vendor' AND i.InvitationStatus = 1",
 						eventId)
 			);
 		if (rs == null) return Response.error("Error fetching event vendors");

@@ -16,46 +16,7 @@ public class Vendor extends User {
 	}
 	
 	public Response<Void> acceptInvitation(String eventId) {
-		Integer rowsAffected = db.executeUpdate(
-				String.format("UPDATE invitations SET InvitationStatus = 1 "
-						+ "WHERE UserId = '%s' AND EventId = '%s' AND InvitationRole = 'Vendor'", 
-						this.userId, eventId)
-			);
-		
-		if(rowsAffected == null) {
-			return Response.error("Error accepting invitation");
-		} else if(rowsAffected == 0) {
-			return Response.error("There is no such invitation");
-		}
-		
-		return Response.success("Invitation accepted", null);
-	}
-	
-	public static Response<List<Invitation>> getInvitations(String userId) {
-		// invitation status 0 = not accepted
-		ResultSet rs = db.executeQuery(
-				String.format("SELECT * FROM invitations "
-						+ "WHERE UserId = '%s' AND InvitationRole = 'Vendor' AND InvitationStatus = 0", userId)
-			);
-		ArrayList<Invitation> invitations = new ArrayList<>();
-		
-		if(rs == null) {
-			return Response.error("Error fetching invitation data");
-		}
-		
-		try {
-			while(rs.next()) {
-				String invitationId = rs.getString("InvitationId");
-				String eventId = rs.getString("EventId");
-				
-				invitations.add(new Invitation(invitationId, eventId, userId, "Not Accepted", "Vendor"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return Response.error("Error fetching invitations: " + e.getMessage());
-		}
-		
-		return Response.success("Fetch invitation success", invitations);
+		return Invitation.acceptInvitation(this.userId, eventId);
 	}
 	
 	public static Response<List<Event>> viewAcceptedEvents(String email) {

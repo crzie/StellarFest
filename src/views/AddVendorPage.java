@@ -98,7 +98,7 @@ public class AddVendorPage extends VBox implements Page{
             } 
 			
 			for (User user : userSelected) {
-            	InvitationController.sendInvitation(user.getUserEmail()); 
+            	InvitationController.sendInvitation(user.getUserEmail(), event.getEventId()); 
             }
 //			
 //			if(response.isSuccess) {
