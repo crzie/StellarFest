@@ -29,6 +29,9 @@ public class SceneController {
 		case "view organized events": return new ViewOrganizedEventsPage();
 		case "view organized event details": return new ViewOrganizedEventDetailsPage();
 		case "edit event name": return new EditEventNamePage();
+		case "manage vendor" : return new ManageVendorPage();
+		case "view vendor" : return new ViewVendorPage();
+		case "view invitations" : return new ViewInvitationPage();
 			default: return new RegisterPage();
 		}
 		

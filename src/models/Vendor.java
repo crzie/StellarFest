@@ -51,7 +51,7 @@ public class Vendor extends User {
 		return Response.success("Fetch accepted events success", events);
 	}
 	
-	public Response<Void> manageVendor(String description, String product) {
+	public static Response<Void> manageVendor(String userId, String description, String product) {
 		PreparedStatement ps = 
 				db.prepareStatement(
 						"INSERT INTO vendorproducts (VendorId, ProductName, ProductDescription) "
@@ -62,7 +62,7 @@ public class Vendor extends User {
 					);
 		
 		try {
-			ps.setString(1, this.userId);
+			ps.setString(1, userId);
 			ps.setString(2, product);
 			ps.setString(3, description);
 			ps.executeUpdate();
@@ -78,7 +78,7 @@ public class Vendor extends User {
 		ResultSet rs = db.executeQuery(
 				String.format("SELECT ProductName, ProductDescription "
 						+ "FROM vendorproducts "
-						+ "WHERE VendorId = %s", 
+						+ "WHERE VendorId LIKE '%s'", 
 						vendorId)
 			);
 		

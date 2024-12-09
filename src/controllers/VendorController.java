@@ -29,7 +29,7 @@ public class VendorController {
 		return Vendor.viewAcceptedEvents(email);
 	}
 	
-	public Response<Void> manageVendor(String description, String product) {
+	public static Response<Void> manageVendor(String description, String product) {
 		User currentUser = AuthUser.get();
 		Response<Void> checkResponse = checkManageVendorInput(description, product);
 		
@@ -39,11 +39,13 @@ public class VendorController {
 		if(!currentUser.getUserRole().equals("Vendor")) {
 			return Response.error("Error managing vendor: user is not a vendor");
 		}
-		return ((Vendor)currentUser).manageVendor(description, product);
+		
+	    return Vendor.manageVendor(currentUser.getUserId(), description, product);
 	}
 	
-	public static Response<VendorProduct> getProduct(String vendorId) {
-		return Vendor.getProduct(vendorId);
+	public static Response<VendorProduct> getProduct() {
+		User currentUser = AuthUser.get();
+		return Vendor.getProduct(currentUser.getUserId());
 	}
 	
 	public static Response<Void> checkManageVendorInput(String description, String product) {
