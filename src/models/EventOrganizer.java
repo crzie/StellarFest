@@ -50,9 +50,9 @@ public class EventOrganizer extends User {
 	public static Response<List<Guest>> getGuests(String eventId) {
 		// eventId to exclude guests already added to event
 		ResultSet rs = db.executeQuery(
-				String.format("SELECT DISTINCT UserId, UserEmail, Username "
+				String.format("SELECT DISTINCT u.UserId, u.UserEmail, u.Username "
 						+ "FROM users u JOIN invitations i ON u.UserId = i.UserId "
-						+ "WHERE UserRole = 'Guest' AND EventId != %s", 
+						+ "WHERE UserRole = 'Guest' AND EventId != '%s'", 
 						eventId
 					)
 			);
@@ -81,9 +81,9 @@ public class EventOrganizer extends User {
 	public static Response<List<Vendor>> getVendors(String eventId) {
 		// eventId to exclude vendors already added to event
 		ResultSet rs = db.executeQuery(
-				String.format("SELECT DISTINCT UserId, UserEmail, Username "
+				String.format("SELECT DISTINCT u.UserId, u.UserEmail, u.Username "
 						+ "FROM users u JOIN invitations i ON u.UserId = i.UserId "
-						+ "WHERE UserRole = 'Vendor' AND EventId != %s", 
+						+ "WHERE UserRole = 'Vendor' AND EventId != '%s'", 
 						eventId
 					)
 			);

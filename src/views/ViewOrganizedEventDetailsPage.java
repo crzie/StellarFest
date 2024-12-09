@@ -179,15 +179,15 @@ public class ViewOrganizedEventDetailsPage extends BorderPane implements Page{
 	public void setEvents() {
 		// TODO Auto-generated method stub
 		editEventButton.setOnAction(e->{
-			SceneController.moveScene("edit event name", event);
+			SceneController.moveScene("edit event name", this.event);
 		});
 		
 		addGuestButton.setOnAction(e-> {
-			SceneController.moveScene("add guests", event);
+			SceneController.moveScene("add guests", this.event);
 		});
 		
 		addVendorButton.setOnAction(e ->{
-			SceneController.moveScene("add vendors", event);
+			SceneController.moveScene("add vendors", this.event);
 		});
 	}
 
