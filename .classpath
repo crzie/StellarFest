@@ -18,10 +18,10 @@
 	</classpathentry>
 
 	<!-- path punya jeje buat sql -->
-	<classpathentry kind="lib" path="C:/Users/LENOVO/Downloads/application/mysql-connector-java-8.0.24.jar">
+	<!-- <classpathentry kind="lib" path="C:/Users/LENOVO/Downloads/application/mysql-connector-java-8.0.24.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
-	</classpathentry>
+	</classpathentry> -->
 	<classpathentry kind="output" path="bin"/>
 </classpath>
