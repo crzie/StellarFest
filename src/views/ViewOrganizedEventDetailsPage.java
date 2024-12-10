@@ -203,7 +203,7 @@ public class ViewOrganizedEventDetailsPage extends BorderPane implements Page{
 		Response<List<Guest>> guestData = EventOrganizerController.getGuestsByTransactionId(this.event.getEventId());
 		Response<List<Vendor>> vendorData = EventOrganizerController.getVendorsByTransactionId(this.event.getEventId());
 		
-		detailLabel = new Label("View Organized Event Details: " + eventData.data.getEventId());
+		detailLabel = new Label("View Organized Event Details - " + eventData.data.getEventId());
 		nameDataLabel = new Label(": " + eventData.data.getEventName());
 		dateDataLabel = new Label(": " + eventData.data.getEventDate());
 		locationDataLabel = new Label(": " + eventData.data.getEventLocation());

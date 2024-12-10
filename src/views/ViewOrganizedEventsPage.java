@@ -25,7 +25,7 @@ public class ViewOrganizedEventsPage extends BorderPane implements Page{
 	private User user = AuthUser.get();
 	private Label viewLabel = new Label("View Organized Event");
 	private Label userLabel = new Label(user.getUserId() + " - " + user.getUsername());
-	private Label noticeLabel = new Label("click the selected list to view organied event details!");
+	private Label noticeLabel = new Label("click the selected list to view organized event details!");
 	
 	private Response<List<Event>> eventList = EventOrganizerController.viewOrganizedEvents(user.getUserId());
 	
@@ -57,24 +57,23 @@ public class ViewOrganizedEventsPage extends BorderPane implements Page{
 		this.setTop(vbox);
 		this.setCenter(eventTable);
 		this.setBottom(errorLabel);
+		this.setPadding(new Insets(10));
 	}
 
 	@Override
 	public void setStyles() {
 		// TODO Auto-generated method stub
 		viewLabel.setFont(Font.font("System", FontWeight.BOLD, 28));
-		userLabel.setFont(Font.font("System", FontWeight.NORMAL, 12));
+		userLabel.setFont(Font.font("System", FontWeight.BOLD, 12));
 		noticeLabel.setFont(Font.font("System", FontWeight.NORMAL, 12));
 		
-		errorLabel.setManaged(false);
 		errorLabel.setStyle("-fx-fill: red;");
 		
-		viewLabel.setPadding(new Insets(10));
-		userLabel.setPadding(new Insets(10));
-		noticeLabel.setPadding(new Insets(10));
+		viewLabel.setPadding(new Insets(20, 0, 20, 0));
+		noticeLabel.setPadding(new Insets(0, 0, 10, 0));
 		eventIdColumn.setMinWidth(50);
 		eventNameColumn.setMinWidth(250);
-		eventDateColumn.setMinWidth(90);
+		eventDateColumn.setMinWidth(80);
 		eventLocationColumn.setMinWidth(250);
 	}
 
@@ -88,7 +87,6 @@ public class ViewOrganizedEventsPage extends BorderPane implements Page{
 			});
 		}
 		else {
-			errorLabel.setManaged(true);
 			errorLabel.setText(eventList.message);
 		}
 		
