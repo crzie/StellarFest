@@ -41,8 +41,13 @@ public class SceneController {
 			else {
 				return new HomePage();
 			}
-			
-		case "edit event name": return new EditEventNamePage();
+		case "edit event name": 
+			if(params.length == 1 && params[0] instanceof Event) {
+				return new EditEventNamePage((Event) params[0]);
+			}
+			else {
+				return new HomePage();
+			}
 			default: return new RegisterPage();
 		}
 		
