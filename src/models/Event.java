@@ -112,4 +112,25 @@ public class Event {
 	public String getEventId() {
 		return eventId;
 	}
+
+	public String getEventName() {
+		return eventName;
+	}
+
+	public String getEventDate() {
+		return eventDate;
+	}
+
+	public String getEventLocation() {
+		return eventLocation;
+	}
+
+	public String getEventDescription() {
+		return eventDescription;
+	}
+
+	public String getOrganizerId() {
+		return organizerId;
+	}
+	
 }

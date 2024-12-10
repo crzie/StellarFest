@@ -26,6 +26,7 @@ public class HomePage extends BorderPane implements Page {
 	
 	// Vendor & Guest
 	private Button viewInvitations = new Button("View Invitations");
+	private Button viewAcceptedEvent = new Button("View Accepted Event");
 	
 	
 	public HomePage() {
@@ -34,10 +35,12 @@ public class HomePage extends BorderPane implements Page {
 
 	@Override
 	public void setLayouts() {
+		String role = authUser.getUserRole();
 		
-		//maap gatau taro buttonnya dimana
-		if(authUser.getUserRole().equalsIgnoreCase("Vendor")) {
-			buttonBox.getChildren().addAll(manageVendor, viewVendor, viewInvitations);
+		if(role.equalsIgnoreCase("Vendor")) {
+			buttonBox.getChildren().addAll(manageVendor, viewVendor, viewInvitations, viewAcceptedEvent);
+		} else if (role.equalsIgnoreCase("Guest")) {
+			buttonBox.getChildren().addAll(viewInvitations, viewAcceptedEvent);
 		}
 	}
 
@@ -65,6 +68,10 @@ public class HomePage extends BorderPane implements Page {
 		// Vendor & Guest
 		viewInvitations.setOnMouseClicked(e -> {
 			SceneController.moveScene("view invitations");
+		});
+		
+		viewAcceptedEvent.setOnMouseClicked(e -> {
+			SceneController.moveScene("view accepted events");
 		});
 	}
 	

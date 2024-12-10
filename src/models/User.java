@@ -123,7 +123,7 @@ public class User {
 	}
 
 	public static Response<User> getUserByUsername(String name) {
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM users WHERE Username = ?");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM users WHERE UserName = ?");
 		ResultSet rs;
 		
 		try {
@@ -223,6 +223,38 @@ public class User {
 			nextId = null;
 		}
 		return nextId;
+	}
+	
+	public static Response<User> getUserById(String param) {
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM users WHERE UserId = ?");
+		ResultSet rs;
+		
+		try {
+			ps.setString(1, param);
+			rs = ps.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Response.error("Error fetching user: " + e.getMessage());
+		}
+		
+		try {
+			if(rs.next()) {
+				String userId = rs.getString("UserId");
+				String userEmail = rs.getString("UserEmail");
+				String username = rs.getString("Username");
+				String userPassword = rs.getString("UserPassword");
+				String userRole = rs.getString("UserRole");
+				
+				User user = new User(userId, userEmail, username, userPassword, userRole);
+				return Response.success("Fetch user success", user);
+			} else {
+				// user not found
+				return Response.success("User not found", null);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.error("Error fetching user: " + e.getMessage());
+		}
 	}
 	
 	public String getUsername() {

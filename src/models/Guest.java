@@ -20,7 +20,7 @@ public class Guest extends User {
 	
 	public static Response<List<Event>> viewAcceptedEvents(String email) {
 		ResultSet rs = db.executeQuery(
-				String.format("SELECT EventId, EventName, EventDate, EventLocation, EventDescription, OrganizerId "
+				String.format("SELECT i.EventId, EventName, EventDate, EventLocation, EventDescription, OrganizerId "
 						+ "FROM events e JOIN invitations i ON e.EventId = i.EventId "
 						+ "JOIN users u ON u.UserId = i.UserId "
 						+ "WHERE UserEmail = '%s' AND InvitationRole = 'Guest' AND InvitationStatus = 1", email)

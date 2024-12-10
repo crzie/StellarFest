@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.Event;
 import models.Invitation;
 import utils.Response;
 
@@ -17,7 +18,7 @@ public class InvitationController {
 		return Invitation.acceptInvitation(userId, eventId);
 	}
 	
-	public static Response<List<Invitation>> getInvitations(String email) {
+	public static Response<List<Event>> getInvitations(String email) {
 		return Invitation.getInvitations(email);
 	}
 }

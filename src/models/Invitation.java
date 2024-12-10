@@ -66,14 +66,16 @@ public class Invitation {
 		return Response.success("Invitation accepted", null);
 	}
 	
-	public static Response<List<Invitation>> getInvitations(String email) {
+	public static Response<List<Event>> getInvitations(String email) {
 		// invitation status 0 = not accepted
 		ResultSet rs = db.executeQuery(
-				String.format("SELECT InvitationId, EventId, i.UserId, InvitationRole "
+				String.format("SELECT e.EventId, e.EventName, e.EventDate, e.EventLocation, e.EventDescription, o.UserName "
 						+ "FROM invitations i JOIN users u ON i.UserId = u.UserId "
-						+ "WHERE UserEmail = '%s' AND InvitationStatus = 0", email)
+						+ "JOIN events e ON i.EventId = e.EventId "
+						+ "JOIN users o ON e.OrganizerId = o.UserId "
+						+ "WHERE u.UserEmail = '%s' AND InvitationStatus = 0", email)
 			);
-		ArrayList<Invitation> invitations = new ArrayList<>();
+		ArrayList<Event> events = new ArrayList<>();
 		
 		if(rs == null) {
 			return Response.error("Error fetching invitation data");
@@ -81,19 +83,21 @@ public class Invitation {
 		
 		try {
 			while(rs.next()) {
-				String invitationId = rs.getString("InvitationId");
 				String eventId = rs.getString("EventId");
-				String userId = rs.getString("UserId");
-				String invitationRole = rs.getString("InvitationRole");
+				String eventName = rs.getString("EventName");
+				String eventDate = rs.getString("EventDate");
+				String eventLocation = rs.getString("EventLocation");
+				String eventDescription = rs.getString("EventDescription");
+				String organizerId = rs.getString("UserName");
 				
-				invitations.add(new Invitation(invitationId, eventId, userId, "Not Accepted", invitationRole));
+				events.add(new Event(eventId, eventName, eventDate, eventLocation, eventDescription, organizerId));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return Response.error("Error fetching invitations: " + e.getMessage());
 		}
 		
-		return Response.success("Fetch invitation success", invitations);
+		return Response.success("Fetch invitation success", events);
 	}
 	
 	private static String getNextIncrementalId() {
@@ -135,40 +139,16 @@ public class Invitation {
 		return invitationId;
 	}
 
-	public void setInvitationId(String invitationId) {
-		this.invitationId = invitationId;
-	}
-
 	public String getEventId() {
 		return eventId;
-	}
-
-	public void setEventId(String eventId) {
-		this.eventId = eventId;
 	}
 
 	public String getInvitationStatus() {
 		return invitationStatus;
 	}
 
-	public void setInvitationStatus(String invitationStatus) {
-		this.invitationStatus = invitationStatus;
-	}
-
 	public String getInvitationRole() {
 		return invitationRole;
-	}
-
-	public void setInvitationRole(String invitationRole) {
-		this.invitationRole = invitationRole;
-	}
-
-	public void print() {
-		System.out.println(this.invitationId);
-		System.out.println(this.eventId);
-		System.out.println(this.invitationStatus);
-		System.out.println(this.invitationRole);
-		System.out.println();
 	}
 	
 }

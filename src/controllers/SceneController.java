@@ -32,6 +32,13 @@ public class SceneController {
 		case "manage vendor" : return new ManageVendorPage();
 		case "view vendor" : return new ViewVendorPage();
 		case "view invitations" : return new ViewInvitationPage();
+		case "view accepted events" : return new ViewAcceptedEventPage();
+		case "view accepted events detail" : 
+			if(params.length == 1) {
+				return new ViewAcceptedEventDetailPage((String)params[0]);				
+			} else {
+				return new ViewAcceptedEventPage();
+			}
 			default: return new RegisterPage();
 		}
 		
