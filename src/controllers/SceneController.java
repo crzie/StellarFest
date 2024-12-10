@@ -29,7 +29,15 @@ public class SceneController {
 		case "view organized events": return new ViewOrganizedEventsPage();
 		case "view organized event details": return new ViewOrganizedEventDetailsPage();
 		case "edit event name": return new EditEventNamePage();
-			default: return new RegisterPage();
+		case "view all events": return new ViewAllEventsPage();
+		case "view event details": 
+			if(params.length == 1 && params[0] instanceof Event) {
+				return new ViewEventDetailsPage((Event)params[0]);				
+			} else {
+				return new HomePage();
+			}
+		case "view all users": return new ViewAllUsersPage();
+		default: return new RegisterPage();
 		}
 		
 	}

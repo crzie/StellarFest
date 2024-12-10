@@ -18,6 +18,11 @@ public class Admin extends User {
 	
 	public static Response<Void> deleteEvent(String eventId) {
 		// event id not written by user, so no prepared statement required
+		
+		db.executeUpdate(
+				String.format("DELETE FROM invitations WHERE EventId = '%s'", eventId)
+			);
+		
 		Integer rowsAffected = db.executeUpdate(
 				String.format("DELETE FROM events WHERE EventId = '%s'", eventId)
 			);
@@ -32,6 +37,18 @@ public class Admin extends User {
 	}
 	
 	public static Response<Void> deleteUser(String userId) {
+		db.executeUpdate(
+				String.format("DELETE FROM vendorproducts WHERE VendorId = '%s'", userId)
+			);
+		
+		db.executeUpdate(
+				String.format("DELETE FROM invitations WHERE UserId = '%s'", userId)
+			);
+		
+		db.executeUpdate(
+				String.format("DELETE FROM events WHERE OrganizerId = '%s'", userId)
+			);
+		
 		Integer rowsAffected = db.executeUpdate(
 				String.format("DELETE FROM users WHERE UserId = '%s'", userId)
 			);
@@ -99,7 +116,7 @@ public class Admin extends User {
 	
 	public static Response<List<Guest>> getGuestsByTransaction(String eventId) {
 		ResultSet rs = db.executeQuery(
-				String.format("SELECT DISTINCT UserId, UserEmail, Username "
+				String.format("SELECT DISTINCT u.UserId, UserEmail, Username "
 						+ "FROM users u JOIN invitations i ON u.UserId = i.UserId "
 						+ "WHERE EventId = '%s' AND InvitationRole = 'Guest' AND InvitationStatus = 1", 
 						eventId)
@@ -125,7 +142,7 @@ public class Admin extends User {
 	
 	public static Response<List<Vendor>> getVendorsByTransaction(String eventId) {
 		ResultSet rs = db.executeQuery(
-				String.format("SELECT DISTINCT UserId, UserEmail, Username "
+				String.format("SELECT DISTINCT u.UserId, UserEmail, Username "
 						+ "FROM users u JOIN invitations i ON u.UserId = i.UserId "
 						+ "WHERE EventId = '%s' AND InvitationRole = 'Vendor' AND InvitationStatus = 1",
 						eventId)
