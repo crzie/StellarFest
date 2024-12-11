@@ -50,9 +50,9 @@ public class EventOrganizer extends User {
 	public static Response<List<Guest>> getGuests(String eventId) {
 		// eventId to exclude guests already added to event
 		ResultSet rs = db.executeQuery(
-				String.format("SELECT DISTINCT UserId, UserEmail, Username "
-						+ "FROM users u JOIN invitations i ON u.UserId = i.UserId "
-						+ "WHERE UserRole = 'Guest' AND EventId != %s", 
+				String.format("SELECT DISTINCT u.UserId, u.UserEmail, u.Username "
+						+ "FROM users u LEFT JOIN invitations i ON u.UserId = i.UserId "
+						+ "WHERE UserRole = 'Guest' AND (EventId != '%s' OR EventId IS NULL)", 
 						eventId
 					)
 			);
@@ -81,12 +81,21 @@ public class EventOrganizer extends User {
 	public static Response<List<Vendor>> getVendors(String eventId) {
 		// eventId to exclude vendors already added to event
 		ResultSet rs = db.executeQuery(
-				String.format("SELECT DISTINCT UserId, UserEmail, Username "
-						+ "FROM users u JOIN invitations i ON u.UserId = i.UserId "
-						+ "WHERE UserRole = 'Vendor' AND EventId != %s", 
+				String.format("SELECT DISTINCT u.UserId, u.UserEmail, u.Username "
+						+ "FROM users u LEFT JOIN invitations i ON u.UserId = i.UserId "
+						+ "WHERE u.UserRole = 'Vendor' AND (i.EventId != '%s' OR i.EventId IS NULL)", 
 						eventId
 					)
 			);
+		
+//		ResultSet rs = db.executeQuery(
+//				String.format("SELECT DISTINCT u.UserId, u.UserEmail, u.Username "
+//						+ "FROM users u  "
+//						+ "WHERE u.UserRole = 'Vendor'", 
+//						eventId
+//					)
+//			);
+		
 		ArrayList<Vendor> vendors = new ArrayList<>();
 		
 		if(rs == null) {
@@ -99,7 +108,7 @@ public class EventOrganizer extends User {
 				String userEmail = rs.getString("UserEmail");
 				String username = rs.getString("Username");
 				
-				vendors.add(new Vendor(userId, userEmail, username, null));
+				vendors.add(new Vendor(userId, userEmail, username, "123"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -111,9 +120,9 @@ public class EventOrganizer extends User {
 	
 	public static Response<List<Guest>> getGuestsByTransactionId(String eventId) {
 		ResultSet rs = db.executeQuery(
-				String.format("SELECT DISTINCT UserId, UserEmail, Username "
+				String.format("SELECT DISTINCT u.UserId, u.UserEmail, u.Username "
 						+ "FROM users u JOIN invitations i ON u.UserId = i.UserId "
-						+ "WHERE EventId = '%s' AND InvitationRole = 'Guest' AND InvitationStatus = 1", 
+						+ "WHERE i.EventId = '%s' AND i.InvitationRole = 'Guest' AND i.InvitationStatus = 1", 
 						eventId)
 			);
 		if (rs == null) return Response.error("Error fetching event guests");
@@ -137,9 +146,9 @@ public class EventOrganizer extends User {
 	
 	public static Response<List<Vendor>> getVendorsByTransactionId(String eventId) {
 		ResultSet rs = db.executeQuery(
-				String.format("SELECT DISTINCT UserId, UserEmail, Username "
+				String.format("SELECT DISTINCT u.UserId, u.UserEmail, u.Username "
 						+ "FROM users u JOIN invitations i ON u.UserId = i.UserId "
-						+ "WHERE EventId = '%s' AND InvitationRole = 'Vendor' AND InvitationStatus = 1",
+						+ "WHERE i.EventId = '%s' AND i.InvitationRole = 'Vendor' AND i.InvitationStatus = 1",
 						eventId)
 			);
 		if (rs == null) return Response.error("Error fetching event vendors");
