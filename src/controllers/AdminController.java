@@ -14,6 +14,7 @@ import utils.Response;
 
 public class AdminController {
 	public static Response<List<Event>> viewAllEvents() {
+		// tak tahu benar atau engga
 		return Admin.viewAllEvents();
 	}
 	
@@ -34,14 +35,14 @@ public class AdminController {
 	}
 	
 	public static Response<List<Event>> getAllEvents() {
-		return Admin.getAllEvents();
+		return Admin.viewAllEvents();
 	}
 	
-	public static Response<List<Guest>> getGuestsByTransaction(String eventId) {
+	public static Response<List<Guest>> getGuestsByTransactionID(String eventId) {
 		return Admin.getGuestsByTransaction(eventId);
 	}
 	
-	public static Response<List<Vendor>> getVendorsByTransaction(String eventId) {
+	public static Response<List<Vendor>> getVendorsByTransactionID(String eventId) {
 		return Admin.getVendorsByTransaction(eventId);
 	}
 }

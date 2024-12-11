@@ -48,7 +48,15 @@ public class SceneController {
 			else {
 				return new HomePage();
 			}
-			default: return new RegisterPage();
+		case "view all events": return new ViewAllEventsPage();
+		case "view event details": 
+			if(params.length == 1 && params[0] instanceof Event) {
+				return new ViewEventDetailsPage((Event)params[0]);				
+			} else {
+				return new HomePage();
+			}
+		case "view all users": return new ViewAllUsersPage();
+		default: return new RegisterPage();
 		}
 		
 	}

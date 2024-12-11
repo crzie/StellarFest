@@ -3,6 +3,8 @@ package models;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import utils.Connect;
 import utils.Response;
@@ -52,6 +54,34 @@ public class Event {
 			return Response.error("Create event failed: " + e.getMessage());
 		}
 	}
+	
+	public static Response<List<Event>> viewAllEvents() {
+		ResultSet rs = db.executeQuery("SELECT * FROM events");
+		ArrayList<Event> events = new ArrayList<>();
+		
+		if(rs == null) {
+			return Response.error("Error fetching event data");
+		}
+		
+		try {
+			while(rs.next()) {
+				String eventId = rs.getString("EventId");
+				String eventName = rs.getString("EventName");
+				String eventDate = rs.getString("EventDate");
+				String eventLocation = rs.getString("EventLocation");
+				String eventDescription = rs.getString("EventDescription");
+				String organizerId = rs.getString("OrganizerId");
+				
+				events.add(new Event(eventId, eventName, eventDate, eventLocation, eventDescription, organizerId));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Response.error("Error fetching events: " + e.getMessage());
+		}
+		
+		return Response.success("Fetch event success", events);
+	}
+	
 	
 	public static Response<Event> viewEventDetails(String eventId) {
 		ResultSet rs = db.executeQuery(
