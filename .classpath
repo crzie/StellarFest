@@ -16,10 +16,11 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/aelle/eclipse-workspace/sesi8/sesi8/MySQL Java Connection Library 8.0.24/mysql-connector-java-8.0.24.jar">
+	<!-- path ellena sql -->
+	<!-- <classpathentry kind="lib" path="C:/Users/aelle/eclipse-workspace/sesi8/sesi8/MySQL Java Connection Library 8.0.24/mysql-connector-java-8.0.24.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
-	</classpathentry>
+	</classpathentry> -->
 	<classpathentry kind="output" path="bin"/>
 </classpath>
