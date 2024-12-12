@@ -59,6 +59,7 @@ public class CreateEventPage extends VBox implements Page{
 				dateInputContainer,
 				locationInputContainer,
 				descInputContainer,
+				errorLabel,
 				createButton
 				);
 	}
@@ -142,6 +143,7 @@ public class CreateEventPage extends VBox implements Page{
 			SceneController.moveScene("home");
 		}
 		else {
+			errorLabel.setVisible(true);
 			errorLabel.setManaged(true);
 			errorLabel.setText(response.message);
 		}

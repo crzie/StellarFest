@@ -159,5 +159,7 @@ public class Event {
 		return eventDescription;
 	}
 	
-	
+	public String getOrganizerId() {
+		return organizerId;
+	}
 }
