@@ -13,7 +13,7 @@ import utils.AuthUser;
 import utils.Response;
 
 public class GuestController {
-	public Response<Void> acceptInvitation(String eventId) {
+	public static Response<Void> acceptInvitation(String eventId) {
 		User currentUser = AuthUser.get();
 		
 		if(currentUser.getUserRole().equals("Guest")) {
@@ -22,7 +22,7 @@ public class GuestController {
 		return Response.error("Error accepting invitation: user is not a guest");
 	}
 	
-	public Response<List<Event>> viewAcceptedEvents(String email) {
+	public static Response<List<Event>> viewAcceptedEvents(String email) {
 		return Guest.viewAcceptedEvents(email);
 	}
 }

@@ -69,6 +69,10 @@ public class UserController {
 		return User.getUserByUsername(name);
 	}
 	
+	public static Response<User> getUserByUserId(String userId) {
+		return User.getUserById(userId);
+	}
+	
 	public static Response<Void> checkRegisterInput(String email, String name, String password) {
 		return User.checkRegisterInput(email, name, password);
 	}
