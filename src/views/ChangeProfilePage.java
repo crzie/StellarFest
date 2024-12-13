@@ -1,5 +1,6 @@
 package views;
 
+import controllers.SceneController;
 import controllers.UserController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -7,6 +8,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -32,11 +34,13 @@ public class ChangeProfilePage extends VBox implements Page{
 	private Text successText = new Text("");
 	
 	private Button changeProfileButton = new Button("Save");
+	private Button backButton = new Button("Back");
 	
 	private VBox emailInputContainer = new VBox();
 	private VBox nameInputContainer = new VBox();
 	private VBox oldPwInputContainer = new VBox();
 	private VBox newPwInputContainer = new VBox();
+	private HBox buttonContainer = new HBox();
 	
 	@Override
 	public void setLayouts() {
@@ -44,6 +48,7 @@ public class ChangeProfilePage extends VBox implements Page{
 		nameInputContainer.getChildren().addAll(nameText, nameTF);
 		oldPwInputContainer.getChildren().addAll(oldPasswordText, oldPasswordTF);
 		newPwInputContainer.getChildren().addAll(newPasswordText, newPasswordTF);
+		buttonContainer.getChildren().addAll(backButton, changeProfileButton);
 		
 		this.getChildren().addAll(
 				changeProfileText,
@@ -53,7 +58,7 @@ public class ChangeProfilePage extends VBox implements Page{
 				newPwInputContainer,
 				errorText,
 				successText,
-				changeProfileButton
+				buttonContainer
 			);
 		
 	}
@@ -78,10 +83,12 @@ public class ChangeProfilePage extends VBox implements Page{
 		nameInputContainer.setAlignment(Pos.CENTER_LEFT);
 		oldPwInputContainer.setAlignment(Pos.CENTER_LEFT);
 		newPwInputContainer.setAlignment(Pos.CENTER_LEFT);
+		buttonContainer.setAlignment(Pos.CENTER);
 		emailInputContainer.setMaxWidth(300);
 		nameInputContainer.setMaxWidth(300);
 		oldPwInputContainer.setMaxWidth(300);
 		newPwInputContainer.setMaxWidth(300);
+		buttonContainer.setMaxWidth(300);
 		emailTF.setMinHeight(32);
 		nameTF.setMinHeight(32);
 		oldPasswordTF.setMinHeight(32);
@@ -92,8 +99,10 @@ public class ChangeProfilePage extends VBox implements Page{
 		VBox.setMargin(oldPwInputContainer, new Insets(10, 20, 0, 20));
 		VBox.setMargin(newPwInputContainer, new Insets(10, 20, 0, 20));
 		VBox.setMargin(errorText, new Insets(5, 20, 0, 20));
-		VBox.setMargin(changeProfileButton, new Insets(10, 20, 0, 20));
+		buttonContainer.setPadding(new Insets(10, 20, 0, 20));
+		buttonContainer.setSpacing(10);
 		changeProfileButton.setPadding(new Insets(6, 20, 6, 20));
+		backButton.setPadding(new Insets(6, 20, 6, 20));
 		
 		this.setAlignment(Pos.CENTER);
 		
@@ -103,6 +112,10 @@ public class ChangeProfilePage extends VBox implements Page{
 	public void setEvents() {
 		changeProfileButton.setOnMouseClicked(e -> {
 			changeProfile();
+		});
+		
+		backButton.setOnMouseClicked(e -> {
+			SceneController.moveScene("home");
 		});
 		
 	}

@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -25,14 +26,17 @@ public class ManageVendorPage extends VBox implements Page{
 	private Text errorText = new Text("");
 	private Text viewLink = new Text("View Vendor");
 	private Button manageButton = new Button("Manage");
+	private Button backButton = new Button("Back");
 	
 	private VBox nameInputContainer = new VBox();
 	private VBox descInputContainer = new VBox();
+	private HBox buttonContainer = new HBox();
 
 	@Override
 	public void setLayouts() {
 		nameInputContainer.getChildren().addAll(nameText, nameTF);
 		descInputContainer.getChildren().addAll(descText, descTF);
+		buttonContainer.getChildren().addAll(backButton, manageButton);
 		
 		this.getChildren().addAll(
 				manageText, 
@@ -40,7 +44,7 @@ public class ManageVendorPage extends VBox implements Page{
 				descInputContainer, 
 				errorText,
 				viewLink, 
-				manageButton
+				buttonContainer
 			);
 	}
 
@@ -57,8 +61,10 @@ public class ManageVendorPage extends VBox implements Page{
 		
 		nameInputContainer.setAlignment(Pos.CENTER_LEFT);
 		descInputContainer.setAlignment(Pos.CENTER_LEFT);
+		buttonContainer.setAlignment(Pos.CENTER);
 		nameInputContainer.setMaxWidth(300);
 		descInputContainer.setMaxWidth(300);
+		buttonContainer.setMaxWidth(300);
 		nameTF.setMinHeight(32);
 		descTF.setMinHeight(32);
 		
@@ -68,10 +74,16 @@ public class ManageVendorPage extends VBox implements Page{
 		VBox.setMargin(descInputContainer, new Insets(10, 20, 0, 20));
 		VBox.setMargin(viewLink, new Insets(10, 20, 0, 20));
 		VBox.setMargin(errorText, new Insets(5, 20, 0, 20));
-		VBox.setMargin(manageButton, new Insets(10, 20, 0, 20));
+		buttonContainer.setPadding(new Insets(10, 20, 0, 20));
+		buttonContainer.setSpacing(10);
 		manageButton.setPadding(new Insets(6, 20, 6, 20));
+		backButton.setPadding(new Insets(6, 20, 6, 20));
 		
 		this.setAlignment(Pos.CENTER);
+		
+		backButton.setOnMouseClicked(e -> {
+			SceneController.moveScene("home");
+		});
 	}
 
 	@Override

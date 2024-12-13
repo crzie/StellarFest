@@ -3,6 +3,7 @@ package views;
 import java.util.List;
 
 import controllers.AdminController;
+import controllers.SceneController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -37,6 +38,9 @@ private Label viewAllUsersLabel = new Label("View All Users");
 	private String eventId;
 
 	private Button deleteButton = new Button("Delete");
+	private Button backButton = new Button("Back");
+	
+	private HBox hb = new HBox();
 
 	@Override
 	public void setLayouts() {
@@ -46,9 +50,11 @@ private Label viewAllUsersLabel = new Label("View All Users");
 		
 		userTable.getColumns().addAll(userIdColumn, userEmailColumn, usernameColumn);
 		
+		hb.getChildren().addAll(backButton, deleteButton);
+		
 		this.setTop(viewAllUsersLabel);
 		this.setCenter(userTable);
-		this.setBottom(deleteButton);
+		this.setBottom(hb);
 		
 	}
 
@@ -64,6 +70,8 @@ private Label viewAllUsersLabel = new Label("View All Users");
 		viewAllUsersLabel.setPadding(new Insets(0, 0, 5, 0));
 		
 		this.setMargin(userTable, new Insets(0, 0, 10, 0));
+		
+		hb.setSpacing(10);
 	}
 
 	@Override
@@ -75,6 +83,10 @@ private Label viewAllUsersLabel = new Label("View All Users");
 			
 			AdminController.deleteUser(user.getUserId());
 			refreshTable();
+		});
+		
+		backButton.setOnMouseClicked(e -> {
+			SceneController.moveScene("home");
 		});
 		
 	}

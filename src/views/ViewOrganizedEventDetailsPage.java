@@ -39,10 +39,10 @@ public class ViewOrganizedEventDetailsPage extends BorderPane implements Page{
 	
 	private VBox eventLabelVB = new VBox();
 	
-	private Label nameLabel = new Label("Event Name");
-	private Label dateLabel = new Label("Event Date");
-	private Label locationLabel = new Label("Event Location");
-	private Label descLabel = new Label("Event Description: ");
+	private Label nameLabel = new Label("Event Name\t\t: ");
+	private Label dateLabel = new Label("Event Date\t\t: ");
+	private Label locationLabel = new Label("Event Location\t: ");
+	private Label descLabel = new Label("Event Description\t: ");
 	
 	private VBox eventDataVB = new VBox();
 	
@@ -79,6 +79,8 @@ public class ViewOrganizedEventDetailsPage extends BorderPane implements Page{
 	private ScrollPane sp1 = new ScrollPane();
 	private ScrollPane sp2 = new ScrollPane();
 	
+	private Button backButton = new Button("Back");
+	
 	@Override
 	public void setLayouts() {
 		// TODO Auto-generated method stub
@@ -99,11 +101,11 @@ public class ViewOrganizedEventDetailsPage extends BorderPane implements Page{
 		
 //		vbox and hbox
 		eventLabelVB.getChildren().addAll(nameLabel, dateLabel, locationLabel, descLabel);
-		eventDataVB.getChildren().addAll(nameDataLabel, dateDataLabel, locationDataLabel);
+		eventDataVB.getChildren().addAll(nameDataLabel, dateDataLabel, locationDataLabel, descDataLabel);
 		
 		eventHB.getChildren().addAll(eventLabelVB, eventDataVB);
 		
-		eventVB.getChildren().addAll(detailLabel, eventHB, descDataLabel, editEventButton);
+		eventVB.getChildren().addAll(detailLabel, eventHB, editEventButton);
 		guestVB.getChildren().addAll(guestLabel, guestTable, addGuestButton);
 		vendorVB.getChildren().addAll(vendorLabel, vendorTable, addVendorButton);
 		
@@ -112,11 +114,11 @@ public class ViewOrganizedEventDetailsPage extends BorderPane implements Page{
 //		LAYOUT
 		this.setTop(eventVB);
 		this.setCenter(tableHbox);
+		this.setBottom(backButton);
 		
 //		alignment
 		eventLabelVB.setAlignment(Pos.TOP_LEFT);
 		eventDataVB.setAlignment(Pos.TOP_LEFT);
-		
 		
 		eventHB.setAlignment(Pos.TOP_LEFT);
 		eventVB.setAlignment(Pos.CENTER);
@@ -153,7 +155,7 @@ public class ViewOrganizedEventDetailsPage extends BorderPane implements Page{
 		
 		detailLabel.setPadding(new Insets(10));
 		
-		descDataLabel.setWrappingWidth(700);
+		descDataLabel.setWrappingWidth(500);
 		eventHB.setMaxWidth(700);
 		eventVB.setSpacing(10);
 		
@@ -173,6 +175,8 @@ public class ViewOrganizedEventDetailsPage extends BorderPane implements Page{
 		tableHbox.setSpacing(10);
 		tableHbox.setPadding(new Insets(10));
 		tableHbox.setMaxHeight(300);
+		
+		this.setMargin(backButton, new Insets(0, 20, 20, 20));
 	}
 
 	@Override
@@ -189,6 +193,10 @@ public class ViewOrganizedEventDetailsPage extends BorderPane implements Page{
 		addVendorButton.setOnAction(e ->{
 			SceneController.moveScene("add vendors", this.event);
 		});
+		
+		backButton.setOnMouseClicked(e -> {
+			SceneController.moveScene("view organized events");
+		});
 	}
 
 	public ViewOrganizedEventDetailsPage(Event event) {
@@ -204,9 +212,9 @@ public class ViewOrganizedEventDetailsPage extends BorderPane implements Page{
 		Response<List<Vendor>> vendorData = EventOrganizerController.getVendorsByTransactionId(this.event.getEventId());
 		
 		detailLabel = new Label("View Organized Event Details - " + eventData.data.getEventId());
-		nameDataLabel = new Label(": " + eventData.data.getEventName());
-		dateDataLabel = new Label(": " + eventData.data.getEventDate());
-		locationDataLabel = new Label(": " + eventData.data.getEventLocation());
+		nameDataLabel = new Label(eventData.data.getEventName());
+		dateDataLabel = new Label(eventData.data.getEventDate());
+		locationDataLabel = new Label(eventData.data.getEventLocation());
 		descDataLabel = new Text(eventData.data.getEventDescription());
 		
 		guestList = FXCollections.observableArrayList(guestData.data);

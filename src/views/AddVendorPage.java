@@ -28,6 +28,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import models.Event;
 import models.User;
 import models.Vendor;
@@ -38,6 +39,8 @@ public class AddVendorPage extends VBox implements Page{
 	
 	private Label titleLabel;
 	
+	private VBox center = new VBox();
+	
 	private ObservableList<Vendor> vendorList;
 	private TableView<Vendor> vendorTable;
 	
@@ -46,11 +49,13 @@ public class AddVendorPage extends VBox implements Page{
 	private TableColumn<Vendor, String> vendorEmailColumn = new TableColumn<>("Vendor Email");
 	private TableColumn<Vendor, String> vendorNameColumn = new TableColumn<>("Vendor Username");
 	
-	private Label errorLabel = new Label("");
+	private Text errorLabel = new Text("");
 	private Button inviteButton = new Button("Invite");
 	
 	private ArrayList<Vendor> userSelected = new ArrayList<>();
 	private ScrollPane sp = new ScrollPane();
+	
+	private Button backButton = new Button("Back");
 	
 	@Override
 	public void setLayouts() {
@@ -82,10 +87,13 @@ public class AddVendorPage extends VBox implements Page{
 		sp.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		sp.setHbarPolicy(ScrollBarPolicy.NEVER);
 		
-		this.getChildren().addAll(titleLabel, vendorTable, inviteButton, errorLabel);
+		center.getChildren().addAll(vendorTable, errorLabel, inviteButton);
+		center.setAlignment(Pos.CENTER);
+		
+		this.getChildren().addAll(titleLabel, center, backButton);
 		this.setSpacing(10);
-		this.setMargin(vendorTable, new Insets(10));
-		this.setAlignment(Pos.TOP_CENTER);
+		this.setPadding(new Insets(20));;
+		this.setAlignment(Pos.TOP_LEFT);
 	}
 
 	@Override
@@ -100,9 +108,10 @@ public class AddVendorPage extends VBox implements Page{
 		vendorTable.setMaxWidth(800);
 		checkBoxColumn.setMinWidth(50);
 		vendorIdColumn.setMinWidth(150);
-		vendorEmailColumn.setMinWidth(290);
-		vendorNameColumn.setMinWidth(285);
+		vendorEmailColumn.setMinWidth(280);
+		vendorNameColumn.setMinWidth(275);
 		inviteButton.setPadding(new Insets(6, 20, 6, 20));
+		backButton.setPadding(new Insets(6, 20, 6, 20));
 		this.setMargin(inviteButton, new Insets(20));
 	}
 
@@ -126,12 +135,16 @@ public class AddVendorPage extends VBox implements Page{
 				SceneController.moveScene("home");
 			}
 		});
+		
+		backButton.setOnMouseClicked(e -> {
+			SceneController.moveScene("view organized event details", event);
+		});
 	}
 	
 	public AddVendorPage(Event event) {
 		this.event = event;
 
-		titleLabel = new Label("Add Vendor - " + event.getEventId());
+		titleLabel = new Label("Add Vendor - " + event.getEventName());
 		
 		Response<List<Vendor>> vendorsResponse = EventOrganizerController.getVendors(event.getEventId());
 		

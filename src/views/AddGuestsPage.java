@@ -22,6 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import models.Event;
 import models.Guest;
 import models.User;
@@ -33,6 +34,8 @@ public class AddGuestsPage extends VBox implements Page{
 	
 	private Label titleLabel;
 	
+	private VBox center = new VBox();
+	
 	private ObservableList<Guest> guestList;
 	private TableView<Guest> guestTable;
 	
@@ -41,11 +44,13 @@ public class AddGuestsPage extends VBox implements Page{
 	private TableColumn<Guest, String> guestEmailColumn = new TableColumn<>("Guest Email");
 	private TableColumn<Guest, String> guestNameColumn = new TableColumn<>("Guest Username");
 	
-	private Label errorLabel = new Label("");
+	private Text errorLabel = new Text("");
 	private Button inviteButton = new Button("Invite");
 	
 	private ArrayList<Guest> userSelected = new ArrayList<>();
 	private ScrollPane sp = new ScrollPane();
+	
+	private Button backButton = new Button("Back");
 	
 	@Override
 	public void setLayouts() {
@@ -77,10 +82,13 @@ public class AddGuestsPage extends VBox implements Page{
 		sp.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		sp.setHbarPolicy(ScrollBarPolicy.NEVER);
 		
-		this.getChildren().addAll(titleLabel, guestTable, inviteButton, errorLabel);
+		center.getChildren().addAll(guestTable, errorLabel, inviteButton);
+		center.setAlignment(Pos.CENTER);
+		
+		this.getChildren().addAll(titleLabel, center, backButton);
 		this.setSpacing(10);
-		this.setMargin(guestTable, new Insets(10));
-		this.setAlignment(Pos.TOP_CENTER);
+		this.setPadding(new Insets(20));;
+		this.setAlignment(Pos.TOP_LEFT);
 	}
 
 	@Override
@@ -95,9 +103,10 @@ public class AddGuestsPage extends VBox implements Page{
 		guestTable.setMaxWidth(800);
 		checkBoxColumn.setMinWidth(50);
 		guestIdColumn.setMinWidth(150);
-		guestEmailColumn.setMinWidth(290);
-		guestNameColumn.setMinWidth(285);
+		guestEmailColumn.setMinWidth(280);
+		guestNameColumn.setMinWidth(275);
 		inviteButton.setPadding(new Insets(6, 20, 6, 20));
+		backButton.setPadding(new Insets(6, 20, 6, 20));
 		this.setMargin(inviteButton, new Insets(20));
 	}
 
@@ -121,12 +130,18 @@ public class AddGuestsPage extends VBox implements Page{
 				SceneController.moveScene("home");
 			}
 		});
+		
+		
+		
+		backButton.setOnMouseClicked(e -> {
+			SceneController.moveScene("view organized event details", event);
+		});
 	}
 	
 	public AddGuestsPage(Event event) {
 		this.event = event;
 
-		titleLabel = new Label("Add Guest - " + event.getEventId());
+		titleLabel = new Label("Add Guest - " + event.getEventName());
 		
 		Response<List<Guest>> guestsResponse = EventOrganizerController.getGuests(event.getEventId());
 		

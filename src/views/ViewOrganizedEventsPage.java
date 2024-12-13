@@ -7,6 +7,7 @@ import controllers.SceneController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -15,6 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import models.Event;
 import models.User;
 import utils.AuthUser;
@@ -39,7 +41,9 @@ public class ViewOrganizedEventsPage extends BorderPane implements Page{
 	
 	private VBox vbox = new VBox();
 	
-	private Label errorLabel = new Label("");
+	private Text errorLabel = new Text("");
+	private Button backButton = new Button("Back");
+	private VBox bottomVB = new VBox();
 	
 	
 	@Override
@@ -53,10 +57,11 @@ public class ViewOrganizedEventsPage extends BorderPane implements Page{
 		eventTable.getColumns().addAll(eventIdColumn, eventNameColumn, eventDateColumn, eventLocationColumn);
 		
 		vbox.getChildren().addAll(viewLabel, userLabel, noticeLabel);
+		bottomVB.getChildren().addAll(errorLabel, backButton);
 		
 		this.setTop(vbox);
 		this.setCenter(eventTable);
-		this.setBottom(errorLabel);
+		this.setBottom(bottomVB);
 		this.setPadding(new Insets(10));
 	}
 
@@ -75,11 +80,17 @@ public class ViewOrganizedEventsPage extends BorderPane implements Page{
 		eventNameColumn.setMinWidth(250);
 		eventDateColumn.setMinWidth(80);
 		eventLocationColumn.setMinWidth(250);
+		
+		bottomVB.setSpacing(10);
 	}
 
 	@Override
 	public void setEvents() {
 		// TODO Auto-generated method stub
+		backButton.setOnMouseClicked(e -> {
+			SceneController.moveScene("home");
+		});
+		
 		if(eventList.isSuccess) {
 			eventTable.setOnMouseClicked(e ->{
 				Event event = eventTable.getSelectionModel().getSelectedItem();
@@ -89,8 +100,6 @@ public class ViewOrganizedEventsPage extends BorderPane implements Page{
 		else {
 			errorLabel.setText(eventList.message);
 		}
-		
-		
 	}
 	
 	public ViewOrganizedEventsPage() {
