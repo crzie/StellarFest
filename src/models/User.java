@@ -272,5 +272,10 @@ public class User {
 	public String getUserEmail() {
 		return userEmail;
 	}
+
+	public String getUserPassword() {
+		return userPassword;
+	}
+	
 	
 }

@@ -20,13 +20,16 @@ public class HomePage extends BorderPane implements Page {
 	private Text nameText = new Text("Welcome " + authUser.getUsername());
     private HBox buttonBox = new HBox();
     
+    // All User
+    private Button changeProfileButton = new Button("Change Profile");
+    
     // Event Organizer
     private Button createEventButton = new Button("Create Event");
     private Button viewOrganizedEventButton = new Button("View Organized Event");
     
     // Admin
-    private Button eventsButton = new Button("Events");
-    private Button usersButton = new Button("Users");
+    private Button viewEventButton = new Button("View All Events");
+    private Button viewUserButton = new Button("View All Users");
 	
 	// Vendor
 	private Button manageVendor = new Button("Manage Vendor");
@@ -46,15 +49,16 @@ public class HomePage extends BorderPane implements Page {
 		String role = authUser.getUserRole();
 		
 		if(authUser.getUserRole().equalsIgnoreCase("Event Organizer")) {
-			buttonBox.getChildren().addAll(createEventButton, viewOrganizedEventButton);
+			buttonBox.getChildren().addAll(createEventButton, viewOrganizedEventButton, changeProfileButton);
 		}
 		else if(authUser.getUserRole().equalsIgnoreCase("Admin")) {
-			buttonBox.getChildren().addAll(eventsButton, usersButton);
+			buttonBox.getChildren().addAll(viewEventButton, viewUserButton, changeProfileButton);
 		}
+		
 		else if(role.equalsIgnoreCase("Vendor")) {
-			buttonBox.getChildren().addAll(manageVendor, viewVendor, viewInvitations, viewAcceptedEvent);
+			buttonBox.getChildren().addAll(manageVendor, viewVendor, viewInvitations, viewAcceptedEvent, changeProfileButton);
 		} else if (role.equalsIgnoreCase("Guest")) {
-			buttonBox.getChildren().addAll(viewInvitations, viewAcceptedEvent);
+			buttonBox.getChildren().addAll(viewInvitations, viewAcceptedEvent, changeProfileButton);
 		}
 	}
 
@@ -70,15 +74,13 @@ public class HomePage extends BorderPane implements Page {
 
 	@Override
 	public void setEvents() {
-		if(authUser.getUserRole().equalsIgnoreCase("Admin")) {
-			eventsButton.setOnMouseClicked(e -> {
-				SceneController.moveScene("view all events");
-			});
-			usersButton.setOnMouseClicked(e -> {
-				SceneController.moveScene("view all users");
-			});
-		}
-		
+		viewEventButton.setOnMouseClicked(e -> {
+			SceneController.moveScene("view all events");
+		});
+		viewUserButton.setOnMouseClicked(e -> {
+			SceneController.moveScene("view all users");
+		});
+	
 		createEventButton.setOnMouseClicked((e) -> {
 			SceneController.moveScene("create event");
 		});
@@ -102,6 +104,11 @@ public class HomePage extends BorderPane implements Page {
 		
 		viewAcceptedEvent.setOnMouseClicked(e -> {
 			SceneController.moveScene("view accepted events");
+		});
+		
+		// All User
+		changeProfileButton.setOnMouseClicked(e -> {
+			SceneController.moveScene("change profile");
 		});
 	}
 	

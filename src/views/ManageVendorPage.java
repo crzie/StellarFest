@@ -83,7 +83,7 @@ public class ManageVendorPage extends VBox implements Page{
 			descTF.requestFocus();
 		});
 		viewLink.setOnMouseClicked(e -> {
-			SceneController.moveScene("manage vendor");
+			SceneController.moveScene("view vendor");
 		});
 		manageButton.setOnMouseClicked(e -> {
 			manageVendor();

@@ -18,6 +18,7 @@ public class SceneController {
 		case "login": return new LoginPage();
 		case "register": return new RegisterPage();
 		case "home": return new HomePage();
+		case "change profile": return new ChangeProfilePage();
 		case "create event": return new CreateEventPage();
 		case "add vendors":
 			if(params.length == 1 && params[0] instanceof Event) {

@@ -36,7 +36,7 @@ public class UserController {
 		return User.login(email, password);
 	}
 	
-	public Response<Void> changeProfile(String email, String name, String oldPassword, String newPassword) {
+	public static Response<Void> changeProfile(String email, String name, String oldPassword, String newPassword) {
 		User currentUser = AuthUser.get();
 		Response<User> emailResponse = getUserByEmail(email);
 		Response<User> nameResponse = getUserByUsername(name);
@@ -77,7 +77,7 @@ public class UserController {
 		return User.checkRegisterInput(email, name, password);
 	}
 	
-	public Response<Void> checkChangeProfileInput(User user, String email, String name, String oldPassword, String newPassword) {
+	public static Response<Void> checkChangeProfileInput(User user, String email, String name, String oldPassword, String newPassword) {
 		return user.checkChangeProfileInput(email, name, oldPassword, newPassword);
 	}
 }
