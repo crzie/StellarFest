@@ -15,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import models.Event;
@@ -23,7 +24,8 @@ import utils.Response;
 
 public class ViewAllUsersPage extends BorderPane implements Page {
 	
-private Label viewAllUsersLabel = new Label("View All Users");
+	private Label viewAllUsersLabel = new Label("View All Users");
+	private Label noticeLabel = new Label("Click on the selected user row on the table, then click on the delete button to see delete a user!");
 	
 	private Response<List<User>> userData = AdminController.getAllUsers();
 	
@@ -33,8 +35,11 @@ private Label viewAllUsersLabel = new Label("View All Users");
 	private TableColumn<User, String> userIdColumn = new TableColumn<>("User ID");
 	private TableColumn<User, String> userEmailColumn = new TableColumn<>("User Email");
 	private TableColumn<User, String> usernameColumn = new TableColumn<>("Username");
+	private TableColumn<User, String> userRoleColumn = new TableColumn<>("User Role");
 	
 	private String eventId;
+	
+	private VBox labelVBox = new VBox();
 
 	private Button deleteButton = new Button("Delete");
 
@@ -43,10 +48,13 @@ private Label viewAllUsersLabel = new Label("View All Users");
 		userIdColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
 		userEmailColumn.setCellValueFactory(new PropertyValueFactory<>("userEmail"));
 		usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+		userRoleColumn.setCellValueFactory(new PropertyValueFactory<>("userRole"));
 		
-		userTable.getColumns().addAll(userIdColumn, userEmailColumn, usernameColumn);
+		userTable.getColumns().addAll(userIdColumn, userEmailColumn, usernameColumn, userRoleColumn);
 		
-		this.setTop(viewAllUsersLabel);
+		labelVBox.getChildren().addAll(viewAllUsersLabel, noticeLabel);
+		
+		this.setTop(labelVBox);
 		this.setCenter(userTable);
 		this.setBottom(deleteButton);
 		
@@ -55,10 +63,14 @@ private Label viewAllUsersLabel = new Label("View All Users");
 	@Override
 	public void setStyles() {
 		viewAllUsersLabel.setFont(Font.font("System", FontWeight.BOLD, 28));
+		noticeLabel.setFont(Font.font("System", FontWeight.NORMAL, 12));
 		
-		userIdColumn.prefWidthProperty().bind(userTable.widthProperty().divide(3));
-		userEmailColumn.prefWidthProperty().bind(userTable.widthProperty().divide(3));
-		usernameColumn.prefWidthProperty().bind(userTable.widthProperty().divide(3));
+		noticeLabel.setPadding(new Insets(0, 0, 10, 0));
+		
+		userIdColumn.prefWidthProperty().bind(userTable.widthProperty().divide(4));
+		userEmailColumn.prefWidthProperty().bind(userTable.widthProperty().divide(4));
+		usernameColumn.prefWidthProperty().bind(userTable.widthProperty().divide(4));
+		userRoleColumn.prefWidthProperty().bind(userTable.widthProperty().divide(4));
 		
 		this.setPadding(new Insets(10));
 		viewAllUsersLabel.setPadding(new Insets(0, 0, 5, 0));
