@@ -159,8 +159,6 @@ public class ViewEventDetailsPage extends BorderPane implements Page{
 		this.setPadding(new Insets(10));
 		this.setMargin(eventVB, new Insets(0, 0, 10, 0));
 		
-//		descDataLabel.setWrappingWidth(700);
-//		eventHB.setMaxWidth(700);
 		eventVB.setSpacing(10);
 		
 		guestTableContainer.setSpacing(10);

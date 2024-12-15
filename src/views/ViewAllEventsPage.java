@@ -29,6 +29,7 @@ import utils.Response;
 public class ViewAllEventsPage extends BorderPane implements Page {
 	
 	private Label viewAllEventsLabel = new Label("View All Events");
+	private Label noticeLabel = new Label("Click on the selected event row on the table, then click on the details or delete button to see details or delete an event!");
 	
 	private Response<List<Event>> eventData = AdminController.viewAllEvents();
 	
@@ -48,12 +49,11 @@ public class ViewAllEventsPage extends BorderPane implements Page {
 	private Button deleteButton = new Button("Delete");
 	private Button backButton = new Button("Back");
 	
+	private VBox labelVBox = new VBox();
 	private HBox buttonHBox = new HBox(); 
 	
 	@Override
 	public void setLayouts() {
-//		eventIdColumn.setCellValueFactory(data -> new );
-		
 		eventIdColumn.setCellValueFactory(new PropertyValueFactory<>("eventId"));
 		eventNameColumn.setCellValueFactory(new PropertyValueFactory<>("eventName"));
 		eventDateColumn.setCellValueFactory(new PropertyValueFactory<>("eventDate"));
@@ -63,9 +63,10 @@ public class ViewAllEventsPage extends BorderPane implements Page {
 		
 		eventTable.getColumns().addAll(eventIdColumn, eventNameColumn, eventDateColumn, eventLocationColumn, eventDescriptionColumn, organizerIdColumn);
 		
+		labelVBox.getChildren().addAll(viewAllEventsLabel, noticeLabel);
 		buttonHBox.getChildren().addAll(backButton, detailsButton, deleteButton);
-		
-		this.setTop(viewAllEventsLabel);
+
+		this.setTop(labelVBox);
 		this.setCenter(eventTable);
 		this.setBottom(buttonHBox);
 	}
@@ -73,6 +74,8 @@ public class ViewAllEventsPage extends BorderPane implements Page {
 	@Override
 	public void setStyles() {
 		viewAllEventsLabel.setFont(Font.font("System", FontWeight.BOLD, 28));
+		noticeLabel.setFont(Font.font("System", FontWeight.NORMAL, 12));
+		noticeLabel.setPadding(new Insets(0, 0, 10, 0));
 		
 		eventIdColumn.prefWidthProperty().bind(eventTable.widthProperty().divide(6));
 		eventNameColumn.prefWidthProperty().bind(eventTable.widthProperty().divide(6));
