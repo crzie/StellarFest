@@ -42,7 +42,8 @@ public class HomePage extends BorderPane implements Page {
 	private Button viewAcceptedEvent = new Button("View Accepted Event");
 	
 	private VBox textBox = new VBox();
-	private Image image = new Image(getClass().getResource("/image/carneyagung.jpg").toExternalForm());
+//	private Image image = new Image(getClass().getResource("/image/carneyagung.jpg").toExternalForm());
+	private Image image = new Image(getClass().getResource("/image/helo.jpg").toExternalForm());
 	private ImageView iv = new ImageView(image);
 	
 	public HomePage() {
