@@ -14,6 +14,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -36,13 +37,15 @@ public class CreateEventPage extends VBox implements Page{
 	private TextField locationTF = new TextField();
 	private TextArea descTA = new TextArea();
 	
-	private Label errorLabel = new Label("");
+	private Text errorLabel = new Text("");
 	private Button createButton = new Button("Create");
+	private Button backButton = new Button("Back");
 	
 	private VBox nameInputContainer = new VBox();
 	private VBox dateInputContainer = new VBox();
 	private VBox locationInputContainer = new VBox();
 	private VBox descInputContainer = new VBox();
+	private HBox buttonContainer = new HBox();
 	
 	@Override
 	public void setLayouts() {
@@ -52,6 +55,7 @@ public class CreateEventPage extends VBox implements Page{
 		dateInputContainer.getChildren().addAll(dateLabel, dateDP);
 		locationInputContainer.getChildren().addAll(locationLabel, locationTF);
 		descInputContainer.getChildren().addAll(descLabel, descTA);
+		buttonContainer.getChildren().addAll(backButton, createButton);
 
 		this.getChildren().addAll(
 				createEventLabel, 
@@ -60,7 +64,7 @@ public class CreateEventPage extends VBox implements Page{
 				locationInputContainer,
 				descInputContainer,
 				errorLabel,
-				createButton
+				buttonContainer
 				);
 	}
 
@@ -80,10 +84,12 @@ public class CreateEventPage extends VBox implements Page{
 		dateInputContainer.setAlignment(Pos.CENTER_LEFT);
 		locationInputContainer.setAlignment(Pos.CENTER_LEFT);
 		descInputContainer.setAlignment(Pos.CENTER_LEFT);
+		buttonContainer.setAlignment(Pos.CENTER);
 		nameInputContainer.setMaxWidth(300);
 		dateInputContainer.setMaxWidth(300);
 		locationInputContainer.setMaxWidth(300);
 		descInputContainer.setMaxWidth(300);
+		buttonContainer.setMaxWidth(300);
 		nameTF.setMinHeight(32);
 		locationTF.setMinHeight(32);
 		descTA.setMinHeight(32);
@@ -94,7 +100,10 @@ public class CreateEventPage extends VBox implements Page{
 		VBox.setMargin(descInputContainer, new Insets(10, 20, 0, 20));
 		VBox.setMargin(errorLabel, new Insets(5, 20, 0, 20));
 		VBox.setMargin(createButton, new Insets(10, 20, 0, 20));
+		buttonContainer.setPadding(new Insets(10, 20, 0, 20));
+		buttonContainer.setSpacing(10);
 		createButton.setPadding(new Insets(6, 20, 6, 20));
+		backButton.setPadding(new Insets(6, 20, 6, 20));
 		
 		this.setAlignment(Pos.CENTER);
 	}
@@ -126,6 +135,10 @@ public class CreateEventPage extends VBox implements Page{
 			if (e.getCode() == KeyCode.ENTER) {
 		        createEvent();
 		    }
+		});
+		
+		backButton.setOnMouseClicked(e -> {
+			SceneController.moveScene("home");
 		});
 	}
 	

@@ -31,39 +31,63 @@ public class EditEventNamePage extends BorderPane implements Page{
 	
 	private VBox eventLabelVB = new VBox();
 	
-	private Label nameLabel = new Label("Event Name\t\t:");
-	private Label dateLabel = new Label("Event Date");
-	private Label locationLabel = new Label("Event Location");
-	private Label descLabel = new Label("Event Description: ");
+	private Label nameLabel = new Label("Event Name\t\t: ");
+	private Label dateLabel = new Label("Event Date\t\t: ");
+	private Label locationLabel = new Label("Event Location\t: ");
+	private Label descLabel = new Label("Event Description\t: ");
 	
 	private VBox eventDataVB = new VBox();
 	
 	private TextField nameDataLabel = new TextField();
 	private Label dateDataLabel;
 	private Label locationDataLabel;
-	private Text descDataLabel;
+	private Label descDataLabel;
+	
+	private HBox buttonHB = new HBox();
 	
 	private Button editButton = new Button("Edit Event Name");
+	private Button backButton = new Button("Back");
 	
-	private Label errorLabel = new Label("");
+	private Text errorLabel = new Text("");
+	
+	private HBox nameHB = new HBox();
+	private HBox dateHB = new HBox();
+	private HBox locationHB = new HBox();
+	private HBox descHB = new HBox();
+	
 	
 	@Override
 	public void setLayouts() {
 		// TODO Auto-generated method stub
-		eventLabelVB.getChildren().addAll(nameLabel, dateLabel, locationLabel, descLabel);
-		eventDataVB.getChildren().addAll(nameDataLabel, dateDataLabel, locationDataLabel);
 		
-		eventHB.getChildren().addAll(eventLabelVB, eventDataVB);
+		nameHB.getChildren().addAll(nameLabel, nameDataLabel);
+		dateHB.getChildren().addAll(dateLabel, dateDataLabel);
+		locationHB.getChildren().addAll(locationLabel, locationDataLabel);
+		descHB.getChildren().addAll(descLabel, descDataLabel);
+//		eventLabelVB.getChildren().addAll(nameLabel, dateLabel, locationLabel, descLabel);
+//		eventDataVB.getChildren().addAll(nameDataLabel, dateDataLabel, locationDataLabel, descDataLabel);
 		
-		eventVB.getChildren().addAll(titleLabel, eventHB, descDataLabel, editButton, errorLabel);
+//		eventHB.getChildren().addAll(eventLabelVB, eventDataVB);
+		
+		buttonHB.getChildren().addAll(backButton, editButton);
+		
+		eventVB.getChildren().addAll(titleLabel, nameHB, dateHB, locationHB, descHB, errorLabel, buttonHB);
 		
 		this.setTop(eventVB);
 		
-		eventLabelVB.setAlignment(Pos.TOP_LEFT);
-		eventDataVB.setAlignment(Pos.TOP_LEFT);
+//		eventLabelVB.setAlignment(Pos.TOP_LEFT);
+//		eventDataVB.setAlignment(Pos.TOP_LEFT);
+//		
+//		eventHB.setAlignment(Pos.TOP_CENTER);
 		
-		eventHB.setAlignment(Pos.TOP_LEFT);
+		nameHB.setAlignment(Pos.CENTER_LEFT);
+		dateHB.setAlignment(Pos.CENTER_LEFT);
+		locationHB.setAlignment(Pos.CENTER_LEFT);
+		descHB.setAlignment(Pos.CENTER_LEFT);
+		
 		eventVB.setAlignment(Pos.CENTER);
+		
+		buttonHB.setAlignment(Pos.CENTER);
 		
 		this.setAlignment(titleLabel, Pos.CENTER);
 		this.setAlignment(eventVB, Pos.CENTER);
@@ -86,9 +110,16 @@ public class EditEventNamePage extends BorderPane implements Page{
 		errorLabel.setStyle("-fx-fill: red;");
 		
 		titleLabel.setPadding(new Insets(10));
+//		eventLabelVB.setSpacing(10);
+//		eventDataVB.setSpacing(10);
 		
-		descDataLabel.setWrappingWidth(700);
-		eventHB.setMaxWidth(700);
+		buttonHB.setPadding(new Insets(10, 20, 0, 20));
+		buttonHB.setSpacing(10);
+		editButton.setPadding(new Insets(6, 20, 6, 20));
+		backButton.setPadding(new Insets(6, 20, 6, 20));
+		
+//		descDataLabel.setWrappingWidth(300);
+		eventVB.setMaxWidth(500);
 		eventVB.setSpacing(10);
 	}
 
@@ -106,6 +137,10 @@ public class EditEventNamePage extends BorderPane implements Page{
 				errorLabel.setText(response.message);
 			}
 		});
+		
+		backButton.setOnMouseClicked(e -> {
+			SceneController.moveScene("view organized event details", event);
+		});
 	}
 	
 	public EditEventNamePage(Event event) {
@@ -113,11 +148,11 @@ public class EditEventNamePage extends BorderPane implements Page{
 		
 		Response<Event> eventData = EventOrganizerController.viewOrganizedEventDetails(this.event.getEventId());
 		
-		titleLabel.setText("Edit Event Name - " + eventData.data.getEventId());
+		titleLabel.setText("Edit Event Name - " + eventData.data.getEventName());
 		nameDataLabel.setText(eventData.data.getEventName());
-		dateDataLabel = new Label(": " + eventData.data.getEventDate());
-		locationDataLabel = new Label(": " + eventData.data.getEventLocation());
-		descDataLabel = new Text(eventData.data.getEventDescription());
+		dateDataLabel = new Label(eventData.data.getEventDate());
+		locationDataLabel = new Label(eventData.data.getEventLocation());
+		descDataLabel = new Label(eventData.data.getEventDescription());
 		
 		
 		initializePage();

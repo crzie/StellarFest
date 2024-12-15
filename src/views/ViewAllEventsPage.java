@@ -47,6 +47,7 @@ public class ViewAllEventsPage extends BorderPane implements Page {
 	
 	private Button detailsButton = new Button("Details");
 	private Button deleteButton = new Button("Delete");
+	private Button backButton = new Button("Back");
 	
 	private VBox labelVBox = new VBox();
 	private HBox buttonHBox = new HBox(); 
@@ -55,7 +56,7 @@ public class ViewAllEventsPage extends BorderPane implements Page {
 	public void setLayouts() {
 //		eventIdColumn.setCellValueFactory(data -> new );
 		
-		eventIdColumn.setCellValueFactory(new PropertyValueFactory<>("eventId"));
+//		eventIdColumn.setCellValueFactory(new PropertyValueFactory<>("eventId"));
 		eventNameColumn.setCellValueFactory(new PropertyValueFactory<>("eventName"));
 		eventDateColumn.setCellValueFactory(new PropertyValueFactory<>("eventDate"));
 		eventLocationColumn.setCellValueFactory(new PropertyValueFactory<>("eventLocation"));
@@ -65,9 +66,8 @@ public class ViewAllEventsPage extends BorderPane implements Page {
 		eventTable.getColumns().addAll(eventIdColumn, eventNameColumn, eventDateColumn, eventLocationColumn, eventDescriptionColumn, organizerIdColumn);
 		
 		labelVBox.getChildren().addAll(viewAllEventsLabel, noticeLabel);
-		
-		buttonHBox.getChildren().addAll(detailsButton, deleteButton);
-		
+		buttonHBox.getChildren().addAll(backButton, detailsButton, deleteButton);
+
 		this.setTop(labelVBox);
 		this.setCenter(eventTable);
 		this.setBottom(buttonHBox);
@@ -77,7 +77,6 @@ public class ViewAllEventsPage extends BorderPane implements Page {
 	public void setStyles() {
 		viewAllEventsLabel.setFont(Font.font("System", FontWeight.BOLD, 28));
 		noticeLabel.setFont(Font.font("System", FontWeight.NORMAL, 12));
-		
 		noticeLabel.setPadding(new Insets(0, 0, 10, 0));
 		
 		eventIdColumn.prefWidthProperty().bind(eventTable.widthProperty().divide(6));
@@ -111,6 +110,10 @@ public class ViewAllEventsPage extends BorderPane implements Page {
 			
 			AdminController.deleteEvent(event.getEventId());
 			refreshTable();
+		});
+		
+		backButton.setOnMouseClicked(e -> {
+			SceneController.moveScene("home");
 		});
 		
 //		eventTable.setOnMouseClicked(e -> {

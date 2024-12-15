@@ -3,6 +3,7 @@ package views;
 import java.util.List;
 
 import controllers.AdminController;
+import controllers.SceneController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -42,6 +43,9 @@ public class ViewAllUsersPage extends BorderPane implements Page {
 	private VBox labelVBox = new VBox();
 
 	private Button deleteButton = new Button("Delete");
+	private Button backButton = new Button("Back");
+	
+	private HBox hb = new HBox();
 
 	@Override
 	public void setLayouts() {
@@ -53,10 +57,11 @@ public class ViewAllUsersPage extends BorderPane implements Page {
 		userTable.getColumns().addAll(userIdColumn, userEmailColumn, usernameColumn, userRoleColumn);
 		
 		labelVBox.getChildren().addAll(viewAllUsersLabel, noticeLabel);
+		hb.getChildren().addAll(backButton, deleteButton);
 		
 		this.setTop(labelVBox);
 		this.setCenter(userTable);
-		this.setBottom(deleteButton);
+		this.setBottom(hb);
 		
 	}
 
@@ -76,6 +81,8 @@ public class ViewAllUsersPage extends BorderPane implements Page {
 		viewAllUsersLabel.setPadding(new Insets(0, 0, 5, 0));
 		
 		this.setMargin(userTable, new Insets(0, 0, 10, 0));
+		
+		hb.setSpacing(10);
 	}
 
 	@Override
@@ -87,6 +94,10 @@ public class ViewAllUsersPage extends BorderPane implements Page {
 			
 			AdminController.deleteUser(user.getUserId());
 			refreshTable();
+		});
+		
+		backButton.setOnMouseClicked(e -> {
+			SceneController.moveScene("home");
 		});
 		
 	}

@@ -6,6 +6,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -17,7 +19,7 @@ import utils.AuthUser;
 
 public class HomePage extends BorderPane implements Page {
 	private User authUser = AuthUser.get();
-	private Text nameText = new Text("Welcome " + authUser.getUsername());
+	private Text nameText = new Text("Welcome " + authUser.getUsername() + "!");
     private HBox buttonBox = new HBox();
     
     // All User
@@ -39,6 +41,9 @@ public class HomePage extends BorderPane implements Page {
 	private Button viewInvitations = new Button("View Invitations");
 	private Button viewAcceptedEvent = new Button("View Accepted Event");
 	
+	private VBox textBox = new VBox();
+	private Image image = new Image(getClass().getResource("/image/carneyagung.jpg").toExternalForm());
+	private ImageView iv = new ImageView(image);
 	
 	public HomePage() {
 		initializePage();
@@ -54,12 +59,15 @@ public class HomePage extends BorderPane implements Page {
 		else if(authUser.getUserRole().equalsIgnoreCase("Admin")) {
 			buttonBox.getChildren().addAll(viewEventButton, viewUserButton, changeProfileButton);
 		}
-		
 		else if(role.equalsIgnoreCase("Vendor")) {
 			buttonBox.getChildren().addAll(manageVendor, viewVendor, viewInvitations, viewAcceptedEvent, changeProfileButton);
 		} else if (role.equalsIgnoreCase("Guest")) {
 			buttonBox.getChildren().addAll(viewInvitations, viewAcceptedEvent, changeProfileButton);
 		}
+		
+		textBox.getChildren().addAll(nameText, iv);
+		textBox.setAlignment(Pos.CENTER);
+		textBox.setSpacing(10);
 	}
 
 	@Override
@@ -69,7 +77,11 @@ public class HomePage extends BorderPane implements Page {
 		setMargin(buttonBox.getChildren());
 		
 		this.setTop(buttonBox);
-		this.setCenter(nameText);
+		this.setCenter(textBox);
+		
+		iv.setFitWidth(400);
+        iv.setFitHeight(400); 
+        iv.setPreserveRatio(true);
 	}
 
 	@Override
