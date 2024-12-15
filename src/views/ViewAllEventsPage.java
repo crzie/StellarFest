@@ -54,9 +54,7 @@ public class ViewAllEventsPage extends BorderPane implements Page {
 	
 	@Override
 	public void setLayouts() {
-//		eventIdColumn.setCellValueFactory(data -> new );
-		
-//		eventIdColumn.setCellValueFactory(new PropertyValueFactory<>("eventId"));
+		eventIdColumn.setCellValueFactory(new PropertyValueFactory<>("eventId"));
 		eventNameColumn.setCellValueFactory(new PropertyValueFactory<>("eventName"));
 		eventDateColumn.setCellValueFactory(new PropertyValueFactory<>("eventDate"));
 		eventLocationColumn.setCellValueFactory(new PropertyValueFactory<>("eventLocation"));
