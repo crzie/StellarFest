@@ -93,6 +93,7 @@ public class CreateEventPage extends VBox implements Page{
 		nameTF.setMinHeight(32);
 		locationTF.setMinHeight(32);
 		descTA.setMinHeight(32);
+		descTA.setWrapText(true);
 		
 		VBox.setMargin(nameInputContainer, new Insets(10, 20, 0, 20));
 		VBox.setMargin(dateInputContainer, new Insets(10, 20, 0, 20));
@@ -125,10 +126,6 @@ public class CreateEventPage extends VBox implements Page{
 		});
 		createButton.setOnMouseClicked(e ->{
 			createEvent();
-			
-			nameTF.clear();
-			locationTF.clear();
-			descTA.clear();
 		});
 		
 		this.setOnKeyPressed(e -> {
