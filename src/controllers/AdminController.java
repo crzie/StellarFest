@@ -14,7 +14,6 @@ import utils.Response;
 
 public class AdminController {
 	public static Response<List<Event>> viewAllEvents() {
-		// tak tahu benar atau engga
 		return Admin.viewAllEvents();
 	}
 	

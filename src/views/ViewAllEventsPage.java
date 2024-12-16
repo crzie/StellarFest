@@ -54,6 +54,7 @@ public class ViewAllEventsPage extends BorderPane implements Page {
 	
 	@Override
 	public void setLayouts() {
+		// memanggil atribut id, name, date, location, description, organizer id yang dimiliki model event untuk kolom pada tabel event
 		eventIdColumn.setCellValueFactory(new PropertyValueFactory<>("eventId"));
 		eventNameColumn.setCellValueFactory(new PropertyValueFactory<>("eventName"));
 		eventDateColumn.setCellValueFactory(new PropertyValueFactory<>("eventDate"));
@@ -61,11 +62,15 @@ public class ViewAllEventsPage extends BorderPane implements Page {
 		eventDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("eventDescription"));
 		organizerIdColumn.setCellValueFactory(new PropertyValueFactory<>("organizerId"));
 		
+		// memasukkan kolom untuk tabel event
 		eventTable.getColumns().addAll(eventIdColumn, eventNameColumn, eventDateColumn, eventLocationColumn, eventDescriptionColumn, organizerIdColumn);
 		
+		// memasukkan judul serta label pemberitahuan untuk vbox
 		labelVBox.getChildren().addAll(viewAllEventsLabel, noticeLabel);
+		// memasukkan button untuk hbox
 		buttonHBox.getChildren().addAll(backButton, detailsButton, deleteButton);
 
+		// memasukkan elemen untuk border pane page ini
 		this.setTop(labelVBox);
 		this.setCenter(eventTable);
 		this.setBottom(buttonHBox);
@@ -73,10 +78,12 @@ public class ViewAllEventsPage extends BorderPane implements Page {
 
 	@Override
 	public void setStyles() {
+		// mengatur style label 
 		viewAllEventsLabel.setFont(Font.font("System", FontWeight.BOLD, 28));
 		noticeLabel.setFont(Font.font("System", FontWeight.NORMAL, 12));
 		noticeLabel.setPadding(new Insets(0, 0, 10, 0));
 		
+		// memastikan agar tiap kolom memiliki ukuran lebar yang sama besar
 		eventIdColumn.prefWidthProperty().bind(eventTable.widthProperty().divide(6));
 		eventNameColumn.prefWidthProperty().bind(eventTable.widthProperty().divide(6));
 		eventDateColumn.prefWidthProperty().bind(eventTable.widthProperty().divide(6));
@@ -84,15 +91,20 @@ public class ViewAllEventsPage extends BorderPane implements Page {
 		eventDescriptionColumn.prefWidthProperty().bind(eventTable.widthProperty().divide(6));
 		organizerIdColumn.prefWidthProperty().bind(eventTable.widthProperty().divide(6));
 		
+		// memberikan padding pada border pane
 		this.setPadding(new Insets(10));
+		// memberikan padding bagian bawah untuk label judul
 		viewAllEventsLabel.setPadding(new Insets(0, 0, 5, 0));
 		
+		// memberikan margin bagian bawah untuk tabel event
 		this.setMargin(eventTable, new Insets(0, 0, 10, 0));
+		// memberikan spacing antar hbox
 		buttonHBox.setSpacing(10);
 	}
 
 	@Override
 	public void setEvents() {
+		// ketika details button diklik akan dibawa ke event details event yang dipilih
 		detailsButton.setOnAction(e -> {
 			TableSelectionModel<Event> tsm = eventTable.getSelectionModel();
 			tsm.setSelectionMode(SelectionMode.SINGLE);
@@ -101,6 +113,7 @@ public class ViewAllEventsPage extends BorderPane implements Page {
 			SceneController.moveScene("view event details", event);
 		});
 		
+		// ketika delete button diklik akan menghapus event yang dipilih
 		deleteButton.setOnAction(e -> {
 			TableSelectionModel<Event> tsm = eventTable.getSelectionModel();
 			tsm.setSelectionMode(SelectionMode.SINGLE);
@@ -110,18 +123,15 @@ public class ViewAllEventsPage extends BorderPane implements Page {
 			refreshTable();
 		});
 		
+		// ketika back button diklik akan kembali ke halaman home
 		backButton.setOnMouseClicked(e -> {
 			SceneController.moveScene("home");
 		});
 		
-//		eventTable.setOnMouseClicked(e -> {
-//			Event event = eventTable.getSelectionModel().getSelectedItem();
-//			SceneController.moveScene("view event details", event);
-//		});
-		
 	}
 	
 	public void refreshTable() {
+		// setelah menghapus data, tabel akan kembali dimasukkan dengan data terbaru
 		eventList.clear();
 		eventData = AdminController.getAllEvents();
 		eventList = FXCollections.observableArrayList(eventData.data);
@@ -129,7 +139,6 @@ public class ViewAllEventsPage extends BorderPane implements Page {
 	}
 	
 	public ViewAllEventsPage() {
-	
 		initializePage();
 	}
 

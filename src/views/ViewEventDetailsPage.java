@@ -128,6 +128,7 @@ public class ViewEventDetailsPage extends BorderPane implements Page{
 
 	@Override
 	public void setStyles() {
+		// memberikan style untuk label yang terdapat pada page
 		detailLabel.setFont(Font.font("System", FontWeight.BOLD, 28));
 		
 		nameLabel.setFont(Font.font("System", FontWeight.BOLD, 14));
@@ -143,30 +144,38 @@ public class ViewEventDetailsPage extends BorderPane implements Page{
 		guestTableLabel.setFont(Font.font("System", FontWeight.BOLD, 14));
 		vendorTableLabel.setFont(Font.font("System", FontWeight.BOLD, 14));
 		
+		// membuat tabel guest dan vendor memiliki ukuran selebar border pane page dibagi 2
 		guestTable.prefWidthProperty().bind(this.widthProperty().divide(2));
 		vendorTable.prefWidthProperty().bind(this.widthProperty().divide(2));
 		
+		// membuat tiap kolom pada tabel guest memiliki ukuran lebar yang sama besarnya
 		guestIdColumn.prefWidthProperty().bind(guestTableContainer.widthProperty().divide(3));
 		guestEmailColumn.prefWidthProperty().bind(guestTableContainer.widthProperty().divide(3));
 		guestNameColumn.prefWidthProperty().bind(guestTableContainer.widthProperty().divide(3));
 		
+		// membuat tiap kolom pada tabel vendor memiliki ukuran lebar yang sama besarnya
 		vendorIdColumn.prefWidthProperty().bind(vendorTableContainer.widthProperty().divide(3));
 		vendorEmailColumn.prefWidthProperty().bind(vendorTableContainer.widthProperty().divide(3));
 		vendorNameColumn.prefWidthProperty().bind(vendorTableContainer.widthProperty().divide(3));
 		
+		// memberikan jarak antara tabel guest dengan vendor
 		tableContainer.setSpacing(10);
 		
+		// memberikan padding pada satu page
 		this.setPadding(new Insets(10));
-		this.setMargin(eventVB, new Insets(0, 0, 10, 0));
 		
+		// memberikan margin bagian bawah antara detail event dengan tabel guest dan vendor
+		this.setMargin(eventVB, new Insets(0, 0, 10, 0));
 		eventVB.setSpacing(10);
 		
+		// memberikan spacing untuk judul tabel dengan tabel
 		guestTableContainer.setSpacing(10);
 		vendorTableContainer.setSpacing(10);
 	}
 
 	@Override
 	public void setEvents() {
+		// ketika tombol back diklik akan kembali ke halaman view all events
 		backButton.setOnMouseClicked(e -> {
 			SceneController.moveScene("view all events");
 		});
@@ -174,18 +183,22 @@ public class ViewEventDetailsPage extends BorderPane implements Page{
 	}
 	
 	public void initializeData(Event event) {
+		// memasukkan event yang dipassing sebagai atribut event pada page ini
 		this.event = event;
 		
+		// mengambil data menggunakan controller
 		eventData = AdminController.viewEventDetails(event.getEventId());
 		guestData = AdminController.getGuestsByTransactionID(event.getEventId());
 		vendorData = AdminController.getVendorsByTransactionID(event.getEventId());
 		
+		// memasukkan data yang diambil ke dalam label
 		detailLabel = new Label("View Event Details: " + eventData.data.getEventId());
 		nameDataLabel = new Label(": " + eventData.data.getEventName());
 		dateDataLabel = new Label(": " + eventData.data.getEventDate());
 		locationDataLabel = new Label(": " + eventData.data.getEventLocation());
 		descDataLabel = new Text(": " + eventData.data.getEventDescription());
 		
+		// memasukkan data guest dan vendor ke dalam tabel
 		guestList = FXCollections.observableArrayList(guestData.data);
 		guestTable = new TableView<>(guestList);
 		vendorList = FXCollections.observableArrayList(vendorData.data);
@@ -193,6 +206,7 @@ public class ViewEventDetailsPage extends BorderPane implements Page{
 	}
 	
 	public ViewEventDetailsPage(Event event) {
+		// melakukan inisialisasi data serta halaman
 		initializeData(event);
 		initializePage();
 	}
