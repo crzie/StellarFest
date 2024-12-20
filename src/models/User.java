@@ -181,6 +181,7 @@ public class User {
 		if(newPassword.length() < 5) {
 			return Response.error("Password must be at least 5 characters");
 		}
+		//email dan name harus berbeda dengan email atau name sebelumnya 
 		if(email.equals(this.userEmail) || name.equals(this.username)) {
 			return Response.error("Email and username must be different from the old one");
 		}

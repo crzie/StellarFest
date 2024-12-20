@@ -145,6 +145,9 @@ public class ChangeProfilePage extends VBox implements Page{
 		
 		// menyimpan response dari proses ubah profile
 		Response<Void> response = UserController.changeProfile(email, name, oldPassword, newPassword);
+		User updatedUser = UserController.getUserByEmail(email).data;
+		
+		AuthUser.set(updatedUser);
 
 		if(response.isSuccess) {
 			// jika proses mengubah profile berhasil
