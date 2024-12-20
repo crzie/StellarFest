@@ -102,6 +102,7 @@ public class RegisterPage extends VBox implements Page{
 
 	@Override
 	public void setEvents() {
+		// jika di click labelnya akan fokus pada text fieldnya
 		emailText.setOnMouseClicked(e -> {
 			emailTF.requestFocus();
 		});
@@ -129,6 +130,7 @@ public class RegisterPage extends VBox implements Page{
 		});
 	}
 	
+	//melakukan register untuk user dengan memanggul user controller dan melakukan validasi
 	private void doRegister() {
 		String email = emailTF.getText();
 		String password = passwordTF.getText();

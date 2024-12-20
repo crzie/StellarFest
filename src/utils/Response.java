@@ -1,10 +1,12 @@
 package utils;
 
 public class Response<T> {
+	// helper class to pass success/error message along with the returned data
 	public boolean isSuccess;
 	public String message;
 	public T data;
 	
+	// call Respons.success / Response.error instead of constructor
 	private Response(String message, T data, boolean isSuccess) {
 		this.message = message;
 		this.data = data;

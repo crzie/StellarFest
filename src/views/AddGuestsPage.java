@@ -36,6 +36,7 @@ public class AddGuestsPage extends VBox implements Page{
 	
 	private VBox center = new VBox();
 	
+	//tabel berisi list guest yang belum terinvite pada event tersebut 
 	private ObservableList<Guest> guestList;
 	private TableView<Guest> guestTable;
 	
@@ -54,7 +55,7 @@ public class AddGuestsPage extends VBox implements Page{
 	
 	@Override
 	public void setLayouts() {
-		// TODO Auto-generated method stub
+		//membuat checkbox pada baris tabel
 		checkBoxColumn.setCellFactory(column -> new TableCell<>() {
 			private final CheckBox checkBox = new CheckBox();{
 				checkBox.setOnAction(e -> {
@@ -76,6 +77,7 @@ public class AddGuestsPage extends VBox implements Page{
 		guestEmailColumn.setCellValueFactory(new PropertyValueFactory<>("userEmail"));
 		guestNameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
 		
+		//memasukkan kolom tabel
 		guestTable.getColumns().addAll(checkBoxColumn, guestIdColumn, guestEmailColumn, guestNameColumn);
 		
 		sp.setContent(guestTable);
@@ -85,6 +87,7 @@ public class AddGuestsPage extends VBox implements Page{
 		center.getChildren().addAll(guestTable, errorLabel, inviteButton);
 		center.setAlignment(Pos.CENTER);
 		
+		//layout page
 		this.getChildren().addAll(titleLabel, center, backButton);
 		this.setSpacing(10);
 		this.setPadding(new Insets(20));;
@@ -99,6 +102,7 @@ public class AddGuestsPage extends VBox implements Page{
 		errorLabel.setManaged(false);
 		errorLabel.setStyle("-fx-fill: red;");
 		
+		//style tabel
 		guestTable.setMaxHeight(500);
 		guestTable.setMaxWidth(800);
 		checkBoxColumn.setMinWidth(50);
@@ -112,7 +116,7 @@ public class AddGuestsPage extends VBox implements Page{
 
 	@Override
 	public void setEvents() {
-		// TODO Auto-generated method stub
+		// jika button invite di click akan melakukan validasi dan mengarahkan pada controller invitation
 		inviteButton.setOnMouseClicked(e ->{
 			ArrayList<User> selectedGuests = new ArrayList<>();
             
@@ -132,12 +136,13 @@ public class AddGuestsPage extends VBox implements Page{
 		});
 		
 		
-		
+		//back button untuk mengarah ke page view organized event details 
 		backButton.setOnMouseClicked(e -> {
 			SceneController.moveScene("view organized event details", event);
 		});
 	}
 	
+	//menampilkan title beserta memasukkan data pada tabel
 	public AddGuestsPage(Event event) {
 		this.event = event;
 

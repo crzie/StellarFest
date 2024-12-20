@@ -81,6 +81,7 @@ public class ViewAcceptedEventPage extends VBox implements Page{
 		actionButton.setOnAction(event -> {
             Event selectedEvent = table.getSelectionModel().getSelectedItem();
             if (selectedEvent != null) {
+            	// Pindah ke scene "view accepted evens detail" dengan passing eventId yang dipilih
             	SceneController.moveScene("view accepted events detail", selectedEvent.getEventId());;
             }
         });

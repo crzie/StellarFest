@@ -75,6 +75,7 @@ public class LoginPage extends VBox implements Page {
 
 	@Override
 	public void setEvents() {
+		// jika di click labelnya akan fokus pada text fieldnya
 		emailText.setOnMouseClicked(e -> {
 			emailTF.requestFocus();
 		});
@@ -95,6 +96,7 @@ public class LoginPage extends VBox implements Page {
 		});
 	}
 	
+	//melakukan login untuk user dengan memanggul user controlle rdan melakukan validasi
 	private void doLogin() {
 		String email = emailTF.getText();
 		String password = passwordTF.getText();

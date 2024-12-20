@@ -14,9 +14,13 @@ import models.User;
 import models.Vendor;
 import utils.Response;
 
+//mengakses ke model Event Organizer
 public class EventOrganizerController {
 	public static Response<Void> createEvent(String eventName, LocalDate date, String location, String description, String organizerId) {
+		// validasi input (seperti name, date, dll)
 		Response<Void> checkResponse = checkCreateEventInput(eventName, date, location, description);
+		
+		// validasi gagal
 		if(!checkResponse.isSuccess) {
 			return Response.error(checkResponse.message);
 		}

@@ -14,7 +14,7 @@ import models.Vendor;
 import models.VendorProduct;
 import utils.AuthUser;
 import utils.Response;
-
+// mengakses pada model user khususnya vendor
 public class VendorController {
 	public Response<Void> acceptInvitation(String eventId) {
 		User currentUser = AuthUser.get();

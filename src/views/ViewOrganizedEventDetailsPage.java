@@ -181,19 +181,22 @@ public class ViewOrganizedEventDetailsPage extends BorderPane implements Page{
 
 	@Override
 	public void setEvents() {
-		// TODO Auto-generated method stub
+		//edit event button akan mengarah ke page edit event name
 		editEventButton.setOnAction(e->{
 			SceneController.moveScene("edit event name", this.event);
 		});
 		
+		//add guest button akkan mengarah ke page add guests
 		addGuestButton.setOnAction(e-> {
 			SceneController.moveScene("add guests", this.event);
 		});
 		
+		//add vendor button akan mengarah ke page add vendor
 		addVendorButton.setOnAction(e ->{
 			SceneController.moveScene("add vendors", this.event);
 		});
 		
+		//back button untuk mengarah ke page view organized events 
 		backButton.setOnMouseClicked(e -> {
 			SceneController.moveScene("view organized events");
 		});
@@ -204,6 +207,7 @@ public class ViewOrganizedEventDetailsPage extends BorderPane implements Page{
 		initializePage();
 	}
 	
+	//menampilkan data detail event yang telah dibuat
 	public void initializeData(Event event) {
 		this.event = event;
 		

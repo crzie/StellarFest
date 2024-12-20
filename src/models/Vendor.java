@@ -19,6 +19,7 @@ public class Vendor extends User {
 		return Invitation.acceptInvitation(this.userId, eventId);
 	}
 	
+	// Menampilkan undangan yang sudah diterima berdasarkan email
 	public static Response<List<Event>> viewAcceptedEvents(String email) {
 		ResultSet rs = db.executeQuery(
 				String.format("SELECT i.EventId, EventName, EventDate, EventLocation, EventDescription, OrganizerId "
@@ -51,6 +52,7 @@ public class Vendor extends User {
 		return Response.success("Fetch accepted events success", events);
 	}
 	
+	// Create vendor baru, apabila vendor sudah ada maka akan di replace
 	public static Response<Void> manageVendor(String userId, String description, String product) {
 		PreparedStatement ps = 
 				db.prepareStatement(
@@ -74,6 +76,7 @@ public class Vendor extends User {
 		}
 	}
 	
+	// Menampilkan detail produk sesuai vendor id
 	public static Response<VendorProduct> getProduct(String vendorId) {
 		ResultSet rs = db.executeQuery(
 				String.format("SELECT ProductName, ProductDescription "

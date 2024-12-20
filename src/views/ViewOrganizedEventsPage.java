@@ -24,6 +24,7 @@ import utils.Response;
 
 public class ViewOrganizedEventsPage extends BorderPane implements Page{
 
+	//mendapatkan data user
 	private User user = AuthUser.get();
 	private Label viewLabel = new Label("View Organized Event");
 	private Label userLabel = new Label(user.getUserId() + " - " + user.getUsername());
@@ -86,11 +87,12 @@ public class ViewOrganizedEventsPage extends BorderPane implements Page{
 
 	@Override
 	public void setEvents() {
-		// TODO Auto-generated method stub
+		//back button untuk mengarah ke page home
 		backButton.setOnMouseClicked(e -> {
 			SceneController.moveScene("home");
 		});
 		
+		//validasi jika row event list berhasil di click akan megarah ke page view organized event details 
 		if(eventList.isSuccess) {
 			eventTable.setOnMouseClicked(e ->{
 				Event event = eventTable.getSelectionModel().getSelectedItem();

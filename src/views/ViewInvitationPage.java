@@ -92,9 +92,13 @@ public class ViewInvitationPage extends VBox implements Page{
 		actionButton.setOnAction(event -> {
             Event selectedEvent = table.getSelectionModel().getSelectedItem();
             if (selectedEvent != null) {
+            	// Accept invitation
                 InvitationController.acceptInvitation(user.getUserId(), selectedEvent.getEventId());
 
+                // Get new updated events
                 List<Event> updatedEvents = InvitationController.getInvitations(user.getUserEmail()).data;
+                
+                // Display the new updated events
                 ObservableList<Event> observableEvent = table.getItems();
                 observableEvent.clear();
                 observableEvent.addAll(updatedEvents);

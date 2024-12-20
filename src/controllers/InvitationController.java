@@ -9,6 +9,7 @@ import models.Event;
 import models.Invitation;
 import utils.Response;
 
+//mengakses ke model Invitation
 public class InvitationController {
 	public static Response<Void> sendInvitation(String email, String eventId) {
 		return Invitation.sendInvitation(email, eventId);

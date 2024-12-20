@@ -55,6 +55,7 @@ public class Event {
 		}
 	}
 	
+	// Menampilkan semua event
 	public static Response<List<Event>> viewAllEvents() {
 		ResultSet rs = db.executeQuery("SELECT * FROM events");
 		ArrayList<Event> events = new ArrayList<>();
@@ -82,7 +83,7 @@ public class Event {
 		return Response.success("Fetch event success", events);
 	}
 	
-	
+	// Menampilkan detail-detail dari event sesuai dengan event id nya
 	public static Response<Event> viewEventDetails(String eventId) {
 		ResultSet rs = db.executeQuery(
 				String.format("SELECT * FROM events WHERE EventId = '%s'", eventId)

@@ -49,14 +49,14 @@ public class CreateEventPage extends VBox implements Page{
 	
 	@Override
 	public void setLayouts() {
-		// TODO Auto-generated method stub
-		
+		// layout untuk text label dan text field 		
 		nameInputContainer.getChildren().addAll(nameLabel, nameTF);
 		dateInputContainer.getChildren().addAll(dateLabel, dateDP);
 		locationInputContainer.getChildren().addAll(locationLabel, locationTF);
 		descInputContainer.getChildren().addAll(descLabel, descTA);
 		buttonContainer.getChildren().addAll(backButton, createButton);
 
+		//layout keseluruhan 
 		this.getChildren().addAll(
 				createEventLabel, 
 				nameInputContainer, 
@@ -111,7 +111,7 @@ public class CreateEventPage extends VBox implements Page{
 
 	@Override
 	public void setEvents() {
-		// TODO Auto-generated method stub
+		// jika di click labelnya akan fokus pada text fieldnya
 		nameLabel.setOnMouseClicked(e -> {
 			nameTF.requestFocus();
 		});
@@ -124,21 +124,26 @@ public class CreateEventPage extends VBox implements Page{
 		descLabel.setOnMouseClicked(e -> {
 			descTA.requestFocus();
 		});
+		
+		//saat button create di click akan create event
 		createButton.setOnMouseClicked(e ->{
 			createEvent();
 		});
 		
+		//jika di enter akan melakukan create event 
 		this.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ENTER) {
 		        createEvent();
 		    }
 		});
 		
+		//back button untuk mengarah ke page view organized event details 
 		backButton.setOnMouseClicked(e -> {
 			SceneController.moveScene("home");
 		});
 	}
 	
+	//memasukkan event pada database
 	public void createEvent() {
 		String name = nameTF.getText();
 		LocalDate date = dateDP.getValue();

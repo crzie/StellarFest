@@ -12,6 +12,7 @@ import models.User;
 import utils.AuthUser;
 import utils.Response;
 
+//mengakses ke model User khususnya guest
 public class GuestController {
 	public static Response<Void> acceptInvitation(String eventId) {
 		User currentUser = AuthUser.get();

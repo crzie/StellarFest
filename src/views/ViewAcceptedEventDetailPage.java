@@ -96,6 +96,7 @@ public class ViewAcceptedEventDetailPage extends VBox implements Page {
         initializePage();
     }
 
+    // Buat vbox biar semua vbox sama
     private VBox createDetailBox(Label label, Text value) {
         VBox box = new VBox(5);
         box.setAlignment(Pos.CENTER_LEFT);

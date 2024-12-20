@@ -13,6 +13,7 @@ public class SceneController {
         stage = primaryStage;
     }
     
+    //mengarah kan page ke arah yang dituju
 	private static Pane getPageFromPath(String path, Object... params) {
 		switch (path) {
 		case "login": return new LoginPage();
@@ -72,6 +73,7 @@ public class SceneController {
 		
 	}
 	
+	//menggati page
 	public static void moveScene(String path, Object... params) {
 		if (stage == null) {
             throw new IllegalStateException("Stage has not been set.");

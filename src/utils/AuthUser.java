@@ -3,6 +3,7 @@ package utils;
 import models.User;
 
 public class AuthUser {
+	// save current user (user that currently logged in)
 	private static User user;
 	
 	private AuthUser() {};
@@ -15,6 +16,7 @@ public class AuthUser {
 		user = u;
 	}
 	
+	// for log out
 	public static void clear() {
 		user = null;
 	}

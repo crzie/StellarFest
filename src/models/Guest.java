@@ -18,6 +18,7 @@ public class Guest extends User {
 		return Invitation.acceptInvitation(this.userId, eventId);
 	}
 	
+	// Menampilkan undangan yang sudah diterima berdasarkan email
 	public static Response<List<Event>> viewAcceptedEvents(String email) {
 		ResultSet rs = db.executeQuery(
 				String.format("SELECT i.EventId, EventName, EventDate, EventLocation, EventDescription, OrganizerId "

@@ -31,6 +31,7 @@ public class EditEventNamePage extends BorderPane implements Page{
 	
 	private VBox eventLabelVB = new VBox();
 	
+	//menampilkan detail event
 	private Label nameLabel = new Label("Event Name\t\t: ");
 	private Label dateLabel = new Label("Event Date\t\t: ");
 	private Label locationLabel = new Label("Event Location\t: ");
@@ -64,21 +65,11 @@ public class EditEventNamePage extends BorderPane implements Page{
 		dateHB.getChildren().addAll(dateLabel, dateDataLabel);
 		locationHB.getChildren().addAll(locationLabel, locationDataLabel);
 		descHB.getChildren().addAll(descLabel, descDataLabel);
-//		eventLabelVB.getChildren().addAll(nameLabel, dateLabel, locationLabel, descLabel);
-//		eventDataVB.getChildren().addAll(nameDataLabel, dateDataLabel, locationDataLabel, descDataLabel);
-		
-//		eventHB.getChildren().addAll(eventLabelVB, eventDataVB);
-		
 		buttonHB.getChildren().addAll(backButton, editButton);
 		
 		eventVB.getChildren().addAll(titleLabel, nameHB, dateHB, locationHB, descHB, errorLabel, buttonHB);
 		
 		this.setTop(eventVB);
-		
-//		eventLabelVB.setAlignment(Pos.TOP_LEFT);
-//		eventDataVB.setAlignment(Pos.TOP_LEFT);
-//		
-//		eventHB.setAlignment(Pos.TOP_CENTER);
 		
 		nameHB.setAlignment(Pos.CENTER_LEFT);
 		dateHB.setAlignment(Pos.CENTER_LEFT);
@@ -110,22 +101,20 @@ public class EditEventNamePage extends BorderPane implements Page{
 		errorLabel.setStyle("-fx-fill: red;");
 		
 		titleLabel.setPadding(new Insets(10));
-//		eventLabelVB.setSpacing(10);
-//		eventDataVB.setSpacing(10);
 		
 		buttonHB.setPadding(new Insets(10, 20, 0, 20));
 		buttonHB.setSpacing(10);
 		editButton.setPadding(new Insets(6, 20, 6, 20));
 		backButton.setPadding(new Insets(6, 20, 6, 20));
 		
-//		descDataLabel.setWrappingWidth(300);
 		eventVB.setMaxWidth(500);
 		eventVB.setSpacing(10);
 	}
 
 	@Override
 	public void setEvents() {
-		// TODO Auto-generated method stub
+		
+		//jika di edit button di click akan mengedit event name dan mengarah ke page view organized event details
 		editButton.setOnAction(e->{
 			Response<Void> response = EventOrganizerController.editEventName(event.getEventId(), nameDataLabel.getText());
 			
@@ -138,11 +127,13 @@ public class EditEventNamePage extends BorderPane implements Page{
 			}
 		});
 		
+		//back button untuk mengarah ke page view organized event details 
 		backButton.setOnMouseClicked(e -> {
 			SceneController.moveScene("view organized event details", event);
 		});
 	}
 	
+	//menampilkan data detail event 
 	public EditEventNamePage(Event event) {
 		this.event = event;
 		

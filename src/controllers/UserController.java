@@ -4,12 +4,14 @@ import models.User;
 import utils.AuthUser;
 import utils.Response;
 
+//mengakses ke model User
 public class UserController {
 	public static Response<Void> register(String email, String name, String password, String role) {
 		Response<User> emailResponse = getUserByEmail(email);
 		Response<User> nameResponse = getUserByUsername(name);
 		Response<Void> checkResponse = checkRegisterInput(email, name, password);
 		
+		//validasi gagal
 		if (!checkResponse.isSuccess) {
 			return Response.error(checkResponse.message);
 		}
@@ -19,6 +21,7 @@ public class UserController {
 		if (!nameResponse.isSuccess) {
 			return Response.error(nameResponse.message);
 		}
+		//jika email dan name adalah null
 		if (emailResponse.data != null) {
 			return Response.error("Email is already used");
 		}
@@ -29,6 +32,7 @@ public class UserController {
 		return User.register(email, name, password, role);
 	}
 	
+	//jika email dan name adalah null
 	public static Response<Void> login(String email, String password) {
 		if (email.isEmpty() || password.isEmpty()) {
 			return Response.error("Email and Password must be filled");
@@ -42,6 +46,7 @@ public class UserController {
 		Response<User> nameResponse = getUserByUsername(name);
 		Response<Void> checkResponse = currentUser.checkChangeProfileInput(email, name, oldPassword, newPassword);
 		
+		//validasi gagal
 		if (!checkResponse.isSuccess) {
 			return Response.error(checkResponse.message);
 		}
@@ -51,6 +56,7 @@ public class UserController {
 		if (!nameResponse.isSuccess) {
 			return Response.error(nameResponse.message);
 		}
+		//jika email dan name adalah null
 		if (emailResponse.data != null) {
 			return Response.error("Email is already used");
 		}

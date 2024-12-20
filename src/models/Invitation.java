@@ -50,6 +50,7 @@ public class Invitation {
 		return Response.success("Invitation sent successfully", null);
 	}
 	
+	// Accept invitation dengan update Invitation status pada table invitation
 	public static Response<Void> acceptInvitation(String userId, String eventId) {
 		Integer rowsAffected = db.executeUpdate(
 				String.format("UPDATE invitations SET InvitationStatus = 1 "

@@ -12,6 +12,7 @@ import models.User;
 import models.Vendor;
 import utils.Response;
 
+//mengakses ke model Admin
 public class AdminController {
 	public static Response<List<Event>> viewAllEvents() {
 		return Admin.viewAllEvents();

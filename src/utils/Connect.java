@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Connect {
+	// configure database here
 	private final String USERNAME = "root";
 	private final String PASSWORD = "";
 	private final String DATABASE = "stellarfest";
@@ -26,6 +27,7 @@ public class Connect {
 		return instance;
 	}
 	
+	// connect to mysql database
 	private Connect() {
 		try {
 //			Class.forName("com.mysql.jdbc.Driver");

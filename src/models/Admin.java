@@ -18,7 +18,6 @@ public class Admin extends User {
 	
 	public static Response<Void> deleteEvent(String eventId) {
 		// event id not written by user, so no prepared statement required
-		
 		db.executeUpdate(
 				String.format("DELETE FROM invitations WHERE EventId = '%s'", eventId)
 			);
@@ -37,6 +36,7 @@ public class Admin extends User {
 	}
 	
 	public static Response<Void> deleteUser(String userId) {
+		// delete datas related to user
 		db.executeUpdate(
 				String.format("DELETE FROM vendorproducts WHERE VendorId = '%s'", userId)
 			);
@@ -115,12 +115,14 @@ public class Admin extends User {
 	}
 	
 	public static Response<List<Guest>> getGuestsByTransaction(String eventId) {
+		// get guests data who accepted the invitation
 		ResultSet rs = db.executeQuery(
 				String.format("SELECT DISTINCT u.UserId, UserEmail, Username "
 						+ "FROM users u JOIN invitations i ON u.UserId = i.UserId "
 						+ "WHERE EventId = '%s' AND InvitationRole = 'Guest' AND InvitationStatus = 1", 
 						eventId)
 			);
+		// if db error
 		if (rs == null) return Response.error("Error fetching event guests");
 		
 		ArrayList<Guest> guests = new ArrayList<>();
@@ -141,12 +143,14 @@ public class Admin extends User {
 	}
 	
 	public static Response<List<Vendor>> getVendorsByTransaction(String eventId) {
+		// get vendor data who accepted the invitation
 		ResultSet rs = db.executeQuery(
 				String.format("SELECT DISTINCT u.UserId, UserEmail, Username "
 						+ "FROM users u JOIN invitations i ON u.UserId = i.UserId "
 						+ "WHERE EventId = '%s' AND InvitationRole = 'Vendor' AND InvitationStatus = 1",
 						eventId)
 			);
+		// if db error
 		if (rs == null) return Response.error("Error fetching event vendors");
 		
 		ArrayList<Vendor> vendors = new ArrayList<>();
